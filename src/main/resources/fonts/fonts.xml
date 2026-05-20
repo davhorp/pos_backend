@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+    <!-- Tu configuración previa de ArialNarrow -->
+    <fontFamily name="ArialNarrow">
+        <normal>fonts/arialn.ttf</normal>
+        <pdfEmbedded>true</pdfEmbedded>
+    </fontFamily>
+
+    <!-- Nueva configuración para Calibri -->
+    <fontFamily name="Calibri">
+        <normal>fonts/calibri.ttf</normal>
+        <pdfEmbedded>true</pdfEmbedded>
+    </fontFamily>
+
+    <fontFamily name="ArialMT">
+        <normal>fonts/arial.ttf</normal>
+        <pdfEmbedded>true</pdfEmbedded>
+    </fontFamily>
+
+    <fontFamily name="MyriadPro">
+        <normal>fonts/myriadpro.otf</normal>
+        <pdfEmbedded>true</pdfEmbedded>
+    </fontFamily>
+</fontFamilies>

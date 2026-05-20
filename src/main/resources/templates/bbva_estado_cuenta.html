@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Estado de Cuenta BBVA</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 1.5cm;
+            @bottom-right {
+                content: "PAGINA " counter(page) "/7";
+                font-family: sans-serif;
+                font-size: 10px;
+            }
+        }
+        body { font-family: 'Helvetica', 'Arial', sans-serif; font-size: 10px; color: #333; }
+
+        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .header-table td { vertical-align: top; }
+
+        .title-blue { color: #004481; font-size: 24px; font-weight: bold; margin: 0; }
+        .subtitle { font-size: 14px; font-weight: bold; margin: 5px 0; }
+
+        /* Tablas de resumen */
+        .info-table { width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 15px; border: 1px solid #000; }
+        .info-table th { background-color: #f2f2f2; border: 1px solid #000; padding: 4px; text-align: left; }
+        .info-table td { border: 1px solid #000; padding: 4px; }
+
+        /* Tabla de movimientos */
+        .mov-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 8px; }
+        .mov-table th { border-top: 2px solid #004481; border-bottom: 2px solid #004481; padding: 5px; text-align: left; }
+        .mov-table td { border-bottom: 1px solid #ccc; padding: 4px; vertical-align: top; }
+
+        .text-right { text-align: right; }
+    </style>
+</head>
+<body>
+
+<table class="header-table">
+    <tr>
+        <td style="width: 50%;">
+            <h1 class="title-blue">BBVA</h1>
+            <div><strong><span th:text="${datos.nombreCliente}"></span></strong></div>
+            <div><span th:text="${datos.direccionCliente}"></span></div>
+        </td>
+        <td style="width: 50%;" class="text-right">
+            <h2 class="subtitle">Estado de Cuenta</h2>
+            <div>CASH MANAGEMENT MORALES MN</div>
+        </td>
+    </tr>
+</table>
+
+<table class="info-table" style="width: 50%;">
+    <tr><th>Periodo</th><td th:text="${datos.periodo}"></td></tr>
+    <tr><th>Fecha de Corte</th><td th:text="${datos.fechaCorte}"></td></tr>
+    <tr><th>No. de Cuenta</th><td th:text="${datos.noCuenta}"></td></tr>
+    <tr><th>No. de Cliente</th><td th:text="${datos.noCliente}"></td></tr>
+    <tr><th>R.F.C</th><td th:text="${datos.rfc}"></td></tr>
+    <tr><th>No. Cuenta CLABE</th><td th:text="${datos.cuentaClabe}"></td></tr>
+</table>
+
+<h3 style="margin-top:20px; border-bottom: 1px solid #000;">Comportamiento</h3>
+<table class="info-table" style="width: 60%;">
+    <tr><td>Saldo de Liquidación Inicial</td><td class="text-right" th:text="${datos.saldoInicial}"></td></tr>
+    <tr><td>Depósitos/Abonos (+)</td><td class="text-right" th:text="${datos.depositosAbonos}"></td></tr>
+    <tr><td>Retiros/Cargos (-)</td><td class="text-right" th:text="${datos.retirosCargos}"></td></tr>
+    <tr><td><strong>Saldo Final (+)</strong></td><td class="text-right"><strong th:text="${datos.saldoFinal}"></strong></td></tr>
+</table>
+
+<div style="page-break-before: always;"></div>
+
+<h1 class="title-blue">BBVA</h1>
+<h3 style="margin-top:20px;">Detalle de Movimientos Realizados</h3>
+
+<table class="mov-table">
+    <thead>
+    <tr>
+        <th>
+            <div>FECHA</div>
+            <div>OPER</div>
+        </th>
+        <th>
+            <div>FECHA</div>
+            <div>LIQ</div>
+        </th>
+        <th>COD. DESCRIPCIÓN / REFERENCIA</th>
+        <th class="text-right">CARGOS</th>
+        <th class="text-right">ABONOS</th>
+        <th class="text-right">
+            <div>SALDO</div>
+            <div>OPERACIÓN</div>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="mov : ${datos.movimientos}">
+        <td th:text="${mov.fechaOperacion}"></td>
+        <td th:text="${mov.fechaLiquidacion}"></td>
+        <td th:text="${mov.descripcion}"></td>
+        <td class="text-right" th:text="${mov.cargos}"></td>
+        <td class="text-right" th:text="${mov.abonos}"></td>
+        <td class="text-right" th:text="${mov.saldoOperacion}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

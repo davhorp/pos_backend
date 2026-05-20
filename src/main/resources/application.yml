@@ -1,0 +1,65 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /pos_system
+application:
+  version: 0.0.1-SNAPSHOT
+  security:
+    jwt:
+      secret-key: 7fb8a3f2c5d1e4a9b0c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4
+      #secret-key: ${JWT_SECRET_KEY}
+      expiration: 86400000
+      refresh-token:
+        expiration: 60480000
+spring:
+  application:
+    name: school-app
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  banner:
+    location: banner.txt
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: school.d3mo.26@gmail.com
+    password: fupkcsobzyskxiam
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    #url: jdbc:postgresql://localhost:5432/securitydb
+    url: jdbc:postgresql://localhost:5432/pos_systems
+    username: postgres
+    #password: rootpwd
+    password: d4vh0rp90
+  jpa:
+    hibernate:
+      ##ddl-auto: create-drop
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+app:
+  admin:
+    email: davhorp90@gmail.com
+  frontend:
+    url: http://192.168.100.35:4200
+    #url: http://192.168.100.35:8080/school_hermanos_grimm/auth
+  school:
+    properties:
+      role: role
+media:
+  #location: mediafiles
+  location: /Users/davhorp/Documents/projects/github/uploads/photos/
+#logging:
+  #file:
+    #name: /Users/davhorp/Documents/projects/github/logs/school.log
+audit:
+  logs:
+    secret: bank_loan_comparison_tools_app__0526

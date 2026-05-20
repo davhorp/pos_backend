@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ESTADOS DE CTA BBVA MAYO 2021-1-3_page_1"
+              language="java"
+              columnCount="1"
+              printOrder="Vertical"
+              columnDirection="LTR"
+              pageWidth="612"
+              pageHeight="950"
+              orientation="Portrait"
+              whenNoDataType="NoPages"
+              sectionType="Band"
+              columnWidth="612"
+              columnSpacing="0"
+              leftMargin="0"
+              rightMargin="0"
+              topMargin="0"
+              bottomMargin="0"
+              whenResourceMissingType="Null"
+              uuid="46058084-0cd5-4261-b757-21d06f901757"
+              isSummaryWithPageHeaderAndFooter="true">
+    <style name="DefaultStyle" isDefault="true" fontName="Arial" fontSize="10"/>
+    <parameter name="logoBanco" class="java.io.InputStream"/>
+    <parameter name="logoBanco1" class="java.io.InputStream"/>
+    <field name="fechaInicio" class="java.lang.String"/>
+    <field name="fechaFin" class="java.lang.String"/>
+    <field name="fechaOperacion" class="java.lang.String"/>
+    <field name="fechaLiquidacion" class="java.lang.String"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <field name="cargo" class="java.lang.Double"/>
+    <field name="abono" class="java.lang.Double"/>
+    <field name="saldoOperacion" class="java.lang.Double"/>
+    <field name="saldoLiquidacion" class="java.lang.Double"/>
+    <field name="saldoOperacionInicial" class="java.lang.Double"/>
+    <field name="saldoLiquidacionInicial" class="java.lang.Double"/>
+    <field name="saldoFinal" class="java.lang.Double"/>
+    <field name="saldoOperacionFinal" class="java.lang.Double"/>
+    <field name="saldoPromedioMinimoMensual" class="java.lang.Double"/>
+    <field name="totalImporteCargos" class="java.lang.Double"/>
+    <field name="totalImporteAbonos" class="java.lang.Double"/>
+    <field name="saldoPromedio" class="java.lang.Double"/>
+    <field name="saldoCargos" class="java.lang.Double"/>
+    <field name="saldoAbonos" class="java.lang.Double"/>
+    <field name="fechaCorte" class="java.lang.String"/>
+    <field name="noClient" class="java.lang.String"/>
+    <field name="noCtaClient" class="java.lang.String"/>
+    <field name="nombreInstitucion" class="java.lang.String"/>
+    <field name="noAbonos" class="java.lang.String"/>
+    <field name="noCargos" class="java.lang.String"/>
+    <field name="nombreNomina" class="java.lang.String"/>
+    <field name="direccion" class="java.lang.String"/>
+    <field name="colonia" class="java.lang.String"/>
+    <field name="totalMovimientosCargos" class="java.lang.Integer"/>
+    <field name="totalMovimientosAbonos" class="java.lang.Integer"/>
+    <field name="cp" class="java.lang.String"/>
+    <field name="rfc" class="java.lang.String"/>
+    <field name="noCtaClabe" class="java.lang.String"/>
+    <field name="noSucursal" class="java.lang.String"/>
+    <field name="diasMes" class="java.lang.String"/>
+    <field name="nombreSucursal" class="java.lang.String"/>
+    <field name="direccionSucursal" class="java.lang.String"/>
+    <field name="ciudad" class="java.lang.String"/>
+    <field name="telefonoSucursal" class="java.lang.String"/>
+    <title>
+        <band height="497">
+            <image isUsingCache="true">
+                <reportElement uuid="a2be92d5-0008-4cc8-975b-cfa9e2d1cf39" x="30" y="29" width="110" height="50"/>
+                <imageExpression><![CDATA[$P{logoBanco}]]></imageExpression>
+            </image>
+            <rectangle>
+                <reportElement uuid="0d0c9ca8-4d4c-4635-aae0-a293175b03a3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="314" y="372" width="288" height="34" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <rectangle>
+                <reportElement uuid="f641b536-b626-4231-9ee1-b1da7855dd16" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="8" y="249" width="282" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <rectangle>
+                <reportElement uuid="f641b536-b626-4231-9ee1-b1da7855dd10" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="8" y="338" width="282" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <rectangle>
+                <reportElement uuid="f641b536-b626-4231-9ee6-b1da7855dd10" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="8" y="402" width="282" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="55" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a955" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="56" width="1" height="89" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a951" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="249" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a952" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="262" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a953" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="249" width="1" height="97" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4558-b89f-b5434d64a954" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="603" y="249" width="1" height="97" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="5fbaefde-960c-40db-98e3-e0d55db30bac" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="55" width="1" height="90" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="5439fd65-bdee-4ae7-ba3d-dda17c50e0c6" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="55" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0c971e67-602d-4ca0-99b4-aa706bc2731c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="314" y="287" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="14cc984d-0489-478f-a94c-9506662dd9cf" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="299" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="e5c41420-b828-43b4-9014-e310045a547a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="311" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="9713c625-d9ea-4fea-906a-746f29397f86" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="323" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="6183cdf2-3529-474c-b327-760fe62126c2" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="334" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="4ee29c67-f5aa-4099-9f02-2efbdb2d29aa" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="346" width="291" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="8d5fe33a-ecf6-4ccf-bc87-37d32bff583c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="70" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="87b2da48-f97f-4ec6-adc2-c84c25fb1621" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="85" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="9f2999d3-29d6-41bf-8f67-cc74c81240ce" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="100" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="9f2ca394-504c-48b5-967e-ec1122008a71" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="115" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="94e7bfd0-ca79-4498-99ae-cabac45e47d2" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="130" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="85ed6a9b-cfc8-4781-a866-ab903eec6364" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="145" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="46e08d52-c432-4f02-86a4-52adf6a8022a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="306" y="55" width="1" height="90" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="b3db7973-f594-4d98-9de6-528b8cf3f15a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="599" y="55" width="1" height="91" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="90f44f97-a87a-46fd-974c-c22a00bffeea" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="249" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="e1cda9f4-e0f8-4c23-bd6a-a92d996b38b1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="262" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="48891bb4-8972-48b0-9645-602c2776d067" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="274" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="1cb0f788-3d83-4824-856a-17ae4e82c849" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="287" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="c0259be5-79f4-4cf7-b8da-2436860d6cc2" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="300" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="256e6088-85cc-4679-a09e-73bc01800c8e" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="313" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="915ea7a4-6902-4d25-9007-029042d54a8d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="325" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="42bcae9b-12cc-4209-b2a0-17fc9d3f18df" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="338" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="42bcae9b-12cc-4209-b2a0-17fc9d3f18d1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="361" y="372" width="1" height="34" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="fbc3e514-21e7-4d05-8bab-225e03554fee" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="351" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="4fb3d252-cf04-45d4-b507-613b9628d8e0" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="364" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="2049dbdc-8ba2-462e-910d-d0f3f6b68b55" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="377" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="96f5f29e-37ab-4b9f-90fe-0631fab05aa3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="389" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="771282d8-9163-4434-b16b-efda97da2dc3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="402" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0c809bad-9229-41a0-aa35-8c105dd56beb" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="415" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="08b2e88b-79c7-43b1-acda-3f9d26f31e66" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="428" width="280" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="89bbcb17-bffc-40a5-9053-8f77abd5de4a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="440" width="281" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="c34fd22e-e4c2-419f-9ea1-fd5fadd77be1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="8" y="249" width="1" height="191" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="8a6824d5-88b9-4e03-b577-eb269b15c25a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="289" y="249" width="1" height="191" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="87369b49-77df-49b5-88b2-4eeb273f327c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="371" width="289" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="9488b122-184c-4b24-a881-f8a11756971e" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="457" y="395" width="97" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="95323bbb-5563-414a-9d6c-733bc8bfe7fe" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="406" width="289" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="f7eeaf95-f2cb-42ba-89d9-33068ee7b963" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="422" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="5277400c-fa77-42a7-bd40-21d3598a36ee" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="5888f99f-fcba-49a3-92bc-0768070b6260" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="361" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="60d10487-7467-4a61-b79d-3f85ccf5dae2" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="409" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="9ba73a4c-05fc-43ed-83cd-5c9f3164b3b4" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="457" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="74de18f1-3d6f-4c3f-ba40-b8102d66ea5c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="506" y="407" width="1" height="15" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="74de18f1-3d6f-4c3f-ba40-b8102d66ea56" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="506" y="372" width="1" height="22" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="abf9c35e-98c6-42ae-84df-5c63df320a12" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="554" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="6374a6cf-d32c-4257-88bd-101e43469952" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="602" y="371" width="1" height="51" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="ade8eb0e-3a88-4d4e-9009-a3759acf8a1a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="8" y="249" width="281" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" backcolor="rgba(0, 0, 0, 0.0)"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="3495d70e-3077-4b86-8760-7cbab089894a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="9" y="496" width="592" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" backcolor="rgba(0, 0, 0, 0.0)"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="08b2e88b-79c7-43b1-acda-3f9d26f31e66" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="275" width="290" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <rectangle>
+                <reportElement uuid="97cef6a9-330d-4352-b184-b0f9f3397134" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="307" y="56" width="125" height="89" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <rectangle>
+                <reportElement uuid="9f468073-9b26-4957-92f7-d0ebfb5e9552" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="314" y="250" width="289" height="12" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement uuid="631d3dbd-e58e-4133-96c3-e06464c92553" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="509" y="9" width="93" height="16" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="MyriadPro" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Estado de Cuenta</text>
+            </staticText>
+            <textField evaluationTime="Master">
+                <reportElement uuid="c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f" x="525" y="36" width="74" height="15"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["PAGINA " + $V{MASTER_CURRENT_PAGE} + "/" + $V{MASTER_TOTAL_PAGES}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="2762be9b-7dfa-4b17-a019-9fe4a4bc416b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="427" y="24" width="172" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombreInstitucion}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="1400c4e8-c12a-4c81-9cae-94c4847eab22" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="9" y="226" width="131" height="17" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="Calibri" size="13" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Información Financiera</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="ccf02cda-a44e-423c-ab1c-fbc4d38bec70" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="30" y="96" width="219" height="25" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombreInstitucion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="6eef1b1d-7a28-439b-b6f1-ea1660f119fb" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="30" y="118" width="53" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombreNomina}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="a2e4094c-19f7-41bc-a298-924510e70406" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="30" y="130" width="123" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="93d74ee4-e9af-41cf-8e05-ca8a0f0063d8" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="30" y="141" width="89" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{colonia}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="b19bb03b-06b2-475e-962e-ea5365f29bf3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="114" y="153" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text><![CDATA[MEXICO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="0e78319d-4b48-4eee-8c56-747518dfbff0" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="200" y="153" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text><![CDATA[CP]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="d8941fc7-9289-47bb-9a25-f6bc9121db4d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="220" y="153" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cp}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="fe0473cd-0338-4055-b39f-aedf450634a1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="58" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Periodo</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="145e2097-7a10-4ee1-88e2-fde779c489b1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="466" y="58" width="130" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["DEL " + $F{fechaInicio} + " AL " + $F{fechaFin}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="3b893cd7-8684-4583-bd97-195a0ba9a5a1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="73" width="61" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Fecha de Corte</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="145e2097-7a10-4ee1-88e2-fde779c489b1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="546" y="73" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fechaCorte}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="eb13ef33-8cfd-4772-ba4e-781d790d259e" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="88" width="57" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>No. de Cuenta</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="976b67fe-0bc1-4e45-8b99-f0e9c42867de" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="546" y="88" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noCtaClient}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="bf8607b0-a468-44bd-85b9-f191e1b3af82" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="103" width="56" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>No. de Cliente</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="02fe4fe2-e68a-4d64-8789-d44bf9840d49" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="546" y="103" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noClient}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="bd56c827-f3b9-4075-9268-569863a58f3a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="118" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>R.F.C</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="e652391c-7bd5-465f-8930-ecc6721e0d5b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="537" y="118" width="59" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{rfc}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="98fa9687-787f-4e0c-9c19-66071acacdb6" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="133" width="75" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>No. Cuenta CLABE</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="1d54e46d-a09c-45c0-b762-e2593aad20e9" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="520" y="132" width="75" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noCtaClabe}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="86eeea04-efad-4525-9d24-0ae045afb3a1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="156" width="277" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["SUCURSAL :      " + $F{noSucursal} + "      " + $F{nombreSucursal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="8b673c34-3318-4b7a-b48b-a6ea14bfdf51" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="168" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>DIRECCION:</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="4f08b526-3137-4d7c-a667-0b6c8d6a1074" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="404" y="168" width="182" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{direccionSucursal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="0c0d3e88-e887-432f-9c49-49534a8c7f03" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="190" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>PLAZA:</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="220be5e3-e494-4ceb-b9de-67cf50285415" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="404" y="190" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="728a93de-8b07-4078-aa9b-c59cfeb92d7c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="309" y="204" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>TELEFONO:</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="21a4cc75-d9f4-4aa1-b853-030f8a98551b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="404" y="204" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{telefonoSucursal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="e1b604a0-d857-41e3-8fca-d8377920573b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="250" width="65" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Comportamiento</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b81d39b6-4da4-4fb8-953c-949395df4927" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="264" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo de Liquidación Inicial</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316ef" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="263" width="59" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoLiquidacionInicial}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="82d442fd-8786-49d0-b05a-43c32dce2367" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="275" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo de Operación Inicial</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="276" width="59" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoOperacionInicial}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="673a672-4758-4f36-87f9-98c545d40fed" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="287" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Depósitos / Abonos (+)</text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e2" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="432" y="288" width="25" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noAbonos}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="288" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoAbonos}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="bfd3f202-1b41-47e4-abda-6966f3ee82e4" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="299" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Retiros / Cargos (-)</text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e4" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="432" y="300" width="25" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noCargos}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e5" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="300" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoCargos}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="f4209d81-fba9-4b18-86cf-b8e0317bb985" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="311" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo Final (+)</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e5" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="312" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoFinal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="4a2e4245-393a-4c8f-af27-1cf151db230b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="323" width="99" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo de Operación Final</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e6" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="323" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoOperacionFinal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="dbadba04-9587-444f-ad52-c888c7c9f40b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="316" y="335" width="150" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo Promedio Mínimo Mensual Hasta:</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cc-524c66c316e6" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="542" y="335" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoPromedioMinimoMensual}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="7c191de7-065e-4d76-87ca-be70dd75156b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="450" y="226" width="160" height="27" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="Calibri" size="13" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>MONEDA NACIONAL</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="63e2c0ee-07d2-4e0c-850b-e374deb5cf35" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="313" y="361" width="239" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Otros productos incluidos en el estado de cuenta (Inversiones)</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="40ef6e1b-99e2-4013-b34c-7f65b9839bcf" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="321" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Contrato</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="ac045b55-8ce9-4ee1-a7dd-8e42fffc237a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="369" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Producto</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="e5b18bd2-add7-4de3-a298-4c7c1fb026cd" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="418" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;Tasa de&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="6b7098bb-9092-49c9-ae24-e9d19a285e50" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="420" y="384" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;Interes&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="9e0c2e8e-d37a-4261-b7cf-df34c9cfdadf" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="423" y="396" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;anual&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="40a45ab7-563d-4a84-b0da-c4d1190a8e67" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="473" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;GAT&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="3ea414b3-c7f7-446f-891a-69c716b84917" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="465" y="384" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;Nominal&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="a55fa1ef-93c9-4f16-850e-33d39885ff71" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="521" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;GAT&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="fc239cf4-6a5b-4d79-8c16-ba344777fee9" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="521" y="384" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;Real&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="d3d2fe92-36de-47ab-ae78-0a860796bd0d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="563" y="373" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Total de</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="45904431-2e4e-49f1-ac22-51b0aa4e883b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="558" y="384" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>comisiones</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="965b3d38-76de-44be-b3bc-ea3c8ea10cb5" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="464" y="395" width="86" height="13" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialMT" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Antes de Impuestos</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="05764f93-8474-4295-9723-4caba42524cb" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="330" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="49afbde2-cc43-430f-bf1a-4f7b1d42aa00" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="378" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="deca54b8-7cea-4717-a5f2-3a27c5753d06" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="426" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="8cbfd774-f3d6-4bd6-a302-6fc1e2690b64" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="475" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="e5d16638-a868-4128-bfaa-9d1922664794" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="523" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b1fc2d0c-18d3-452c-82a5-e5d83976ac8b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="571" y="410" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>N/A</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="6f722aac-22f3-4350-aeab-af8d3a709261" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="10" y="251" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Rendimiento</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="1471d2fd-235e-4119-bdcf-c8e0f70816d5" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="263" width="58" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo Promedio</text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="4543c8bd-ebc1-4a39-b2cE-524c66c316e6" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="237" y="262" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoPromedio}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="b49b745c-2d97-4852-8a40-a5eed19ade41" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="276" width="60" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Días del Periodo</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="aede6ea0-a241-4a99-9764-d5612d964422" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="238" y="275" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{diasMes}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="3cc61f86-763e-4a48-b51c-c60deb757ed0" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="289" width="67" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;Tasa Bruta Anual&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="a2bc93ef-9ca0-4724-9e2a-1d0d0b694033" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="179" y="289" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;%&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="92453ace-0690-4da5-87d1-4954fc0e1d14" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="267" y="289" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top" markup="styled">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>&lt;style isBold="true"&gt;0.010&lt;/style&gt;</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="91d33ee1-8b66-4303-a7de-d76f0dedfd9d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="301" width="93" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Saldo Promedio Gravable</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b66fd964-9a59-4cfc-99a7-4a0e26004e92" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="271" y="301" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="a6e8ddf4-82fc-4ca6-bda1-1741c1c870f4" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="314" width="76" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Intereses a Favor (+)</text>
+            </staticText>
+
+            <staticText>
+                <reportElement uuid="ab041eb9-8c42-4ae0-8bc7-4d085b66d90a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="327" width="61" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>ISR Retenido (-)</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="4ab34ab2-8160-4a90-8727-f8ac3cd0b96d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="271" y="327" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="5f1c236d-b7e0-4873-a6f0-406b97dd9636" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="10" y="340" width="89" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Comisiones de la cuenta</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="2f73c096-62b4-477e-9d84-5b363791dcf9" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="352" width="66" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Cheques pagados</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="bfd5ee88-a6dc-4781-8c81-69586405194e" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="179" y="352" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="f52b75c8-9e50-44c0-8f3e-cf4974876483" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="270" y="352" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="0ed2e40c-ed6a-4985-a322-c196e77f3504" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="365" width="67" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Manejo de Cuenta</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="d70fa888-d373-4559-8b99-499bad1ba63d" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="270" y="365" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="12d2b37e-d8aa-400f-9a69-064eee90d884" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="378" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Anualidad</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b287f703-7f44-4607-9c0b-8e333678b3c7" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="270" y="378" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="1dda2c30-bbe6-4a96-b4e9-fd2660cd5dab" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="391" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Operaciones</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="530350d1-bdf3-4595-8585-db3922c54c14" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="179" y="391" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="497d5948-4b63-43c3-be86-8295b1b8b520" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="270" y="391" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="704c6e0c-bd1c-4362-b848-7a599a85d039" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="10" y="404" width="63" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Total Comisiones</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="d1ef1fca-44a2-4e0a-be9d-1c9e2b8b3cf3" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="270" y="404" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="192b499f-5e03-4f51-ab23-50a87c59108f" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="416" width="66" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Cargos Objetados</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="c840e2fd-ea0f-4534-bdb2-c14082277e80" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="179" y="416" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b82a9c76-de6e-452b-935a-a277123ad46c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="271" y="416" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b5821ff1-9592-42fe-b34d-0a39347e25d1" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="16" y="430" width="67" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Abonos Objetados</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="cc3fca3c-0dd2-4010-9f97-d598666c783e" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="179" y="429" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="42a1e44f-9d24-429a-abda-744b7cf98d2c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="271" y="430" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>0.00</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="48f9a637-86c8-4393-a5b0-b69d2e709b9a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="9" y="480" width="191" height="15" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="Arial" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Detalle de Movimientos Realizados</text>
+            </staticText>
+        </band>
+    </title>
+    <!-- CABECERA QUE SOLO APARECE DESPUÉS DE LA PÁGINA 1 -->
+    <pageHeader>
+        <band height="100">
+            <printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+            <image isUsingCache="true">
+                <reportElement uuid="a2be92d5-0408-4cc8-975b-cfa9e2d1cf39" x="29" y="23" width="110" height="50"/>
+                <imageExpression><![CDATA[$P{logoBanco}]]></imageExpression>
+            </image>
+            <rectangle>
+                <reportElement uuid="97cef6a9-330D-4352-b184-b0f9f3397134" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="307" y="55" width="125" height="37" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" forecolor="rgba(0, 0, 0, 0.0)" backcolor="#C0C0C0"/>
+                <graphicElement fill="Solid">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement uuid="631d3dbd-e18e-4133-96c3-e06464c92553" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="497" y="6" width="93" height="16" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="MyriadPro" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Estado de Cuenta</text>
+            </staticText>
+            <textField evaluationTime="Master">
+                <reportElement uuid="c1d2e3f4-a5b8-7c8d-9e0f-1a2b3c4d5e6f" x="513" y="33" width="74" height="15"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["PAGINA " + $V{MASTER_CURRENT_PAGE} + "/" + $V{MASTER_TOTAL_PAGES}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="2762be9b-7dfa-4b17-a919-9fe4a4bc416b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="415" y="21" width="172" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombreInstitucion}]]></textFieldExpression>
+            </textField>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4559-b89f-b5434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="307" y="55" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4550-b89f-b5434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="307" y="73" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4552-b89f-b5434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="307" y="91" width="293" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4552-b89f-b6434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="307" y="56" width="1" height="35" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4552-b89f-b8434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="432" y="56" width="1" height="35" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <line direction="TopDown">
+                <reportElement uuid="0ba2aae4-3160-4552-b89f-b0434d64a95c" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="599" y="56" width="1" height="35" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+            </line>
+            <staticText>
+                <reportElement uuid="17e96f30-30e0-43c3-ae21-ef214b3eeb30" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="312" y="58" width="57" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>No. de Cuenta</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="74867c05-f4e2-45ee-a48a-f9729328b44f" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="543" y="57" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noCtaClient}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="b3491b20-437b-4e29-a37b-ae375d146f21" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="312" y="76" width="56" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>No. de Cliente</text>
+            </staticText>
+            <textField>
+                <reportElement uuid="371fef19-5aac-4b2a-ba15-c1fe67289470" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="543" y="76" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noClient}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="35">
+            <staticText>
+                <reportElement uuid="d8abf485-d7f6-41e7-b1a2-e54901961327" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="32" y="5" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>FECHA</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="b7130809-9576-4a08-8f2f-8e16a29c221b" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="521" y="5" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>SALDO</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="edfe092e-cd05-4e55-9193-e854d2706bb7" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="18" y="16" width="30" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>OPER</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="3dc084a1-8121-4486-842d-6bfcd050f90a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="49" y="16" width="30" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>LIQ</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="e2a2f3bf-acd6-4d31-b4ba-a990c6ec8b9a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="90" y="16" width="82" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>COD. DESCRIPCIÓN</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="48f0536f-1c0e-4a9b-ad79-6f5710b24980" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="220" y="16" width="58" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>REFERENCIA</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="54eb40f4-a566-4c3f-aa3e-8c80653dc525" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="344" y="16" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>CARGOS</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="6fe00923-0a56-454c-b503-07ac91845e9f" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="410" y="16" width="50" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>ABONOS</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="dcd6f195-b921-459f-b892-08ecae26acb4" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="475" y="16" width="55" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>OPERACIÓN</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="10a17eec-3916-4598-b531-e6b785dc7df9" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="539" y="16" width="58" height="14" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>LIQUIDACIÓN</text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="15" splitType="Stretch">
+            <textField>
+                <reportElement uuid="8683ad9f-0697-4c94-a1b1-074362b59001" x="9" y="0" width="30" height="14"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fechaOperacion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="8683ad9f-0697-4c94-a1b1-074362b59001" x="49" y="0" width="30" height="14"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fechaLiquidacion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="6ac14724-0baf-4137-840b-0d2388c01bb4" x="90" y="0" width="200" height="14"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="8358a3b3-a260-4a09-855f-ab5411ccc7a0" x="330" y="0" width="50" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="466bf6cd-d56f-4c4b-91b1-2d84bb827c18" x="394" y="0" width="50" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="69a75dfa-dfe4-45a3-891d-767532bbb083" x="472" y="0" width="50" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoOperacion}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="69a75dfa-dfe4-45a3-891d-767532bbF083" x="543" y="0" width="50" height="14"/>
+                <textElement textAlignment="Right" verticalAlignment="Top">
+                    <font fontName="ArialNarrow" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{saldoLiquidacion}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <!-- PIE DE PÁGINA QUE APARECE SOLO EN LA PRIMERA PÁGINA -->
+    <pageFooter>
+        <band height="111">
+            <!-- BLOQUE 1: PÁGINA 1 (Información completa) -->
+            <frame>
+                <reportElement uuid="3495d70e-5078-4b86-8760-7cbab089894a" x="0" y="0" width="612" height="111">
+                    <printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+                </reportElement>
+                <line direction="TopDown">
+                    <reportElement uuid="22e991e0-aebb-474d-bf4c-3c13606e3cca" x="39" y="1" width="495" height="1"/>
+                    <graphicElement>
+                        <pen lineWidth="1.0" lineStyle="Dashed"/>
+                    </graphicElement>
+                </line>
+                <line direction="TopDown">
+                    <reportElement uuid="ce6eada5-adbd-4d0c-900b-e40b608f4a59" x="9" y="71" width="592" height="1"/>
+                </line>
+                <staticText>
+                    <reportElement uuid="a05a495a-d022-4832-ad87-a5988b4ab530" x="246" y="10" width="110" height="16"/>
+                    <textElement textAlignment="Center"><font fontName="Arial" size="12" isBold="true"/></textElement>
+                    <text>Estimado Cliente,</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="fbd67d0d-dc27-4ac5-abf9-0b89dba5e8a0" x="61" y="23" width="480" height="16"/>
+                    <textElement textAlignment="Center"><font fontName="Arial" size="12" isBold="true"/></textElement>
+                    <text>Su Estado de Cuenta ha sido modificado y ahora tiene más detalle de información.</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="2a166cfa-e180-4580-9f9b-e5ee9aaf374d" x="126" y="35" width="350" height="16"/>
+                    <textElement textAlignment="Center"><font fontName="Arial" size="12" isBold="true"/></textElement>
+                    <text>También le informamos que su Contrato ha sido modificado,</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="40538eda-a379-4f0e-80c3-759985fa56b1" x="123" y="46" width="354" height="16"/>
+                    <textElement textAlignment="Center"><font fontName="Arial" size="12" isBold="true"/></textElement>
+                    <text>el cual puede consultarlo en cualquier sucursal o www.bbva.mx</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="5402ec19-cf13-4b9e-b19e-7d14648d3cef" x="239" y="57" width="122" height="16"/>
+                    <textElement textAlignment="Center"><font fontName="Arial" size="12" isBold="true"/></textElement>
+                    <text>Con BBVA adelante.</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="93ade55a-a4f0-4799-8371-9f2de4b7c731" x="9" y="72" width="324" height="14"/>
+                    <textElement><font fontName="ArialNarrow" size="10"/></textElement>
+                    <text>La GAT Real es el rendimiento que obtendría después de descontar la inflación estimada</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="dc5cfee1-84b1-4801-aa69-4e43c6775470" x="9" y="85" width="394" height="14"/>
+                    <textElement><font fontName="ArialNarrow" size="10"/></textElement>
+                    <text>BBVA BANCOMER, S.A. INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA BANCOMER</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="83047ec1-dc5c-4f7b-a9ec-fd90aa85e3da" x="9" y="98" width="455" height="12"/>
+                    <textElement><font fontName="ArialMT" size="8"/></textElement>
+                    <text>Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc, C.P. 06600, Ciudad de México. México R.F.C. BBA830831LJ2</text>
+                </staticText>
+            </frame>
+            <!-- BLOQUE 2: PÁGINAS 2+ (Información reducida) -->
+            <frame>
+                <reportElement uuid="3495d70e-3078-4b86-8760-7cbab089894a" x="0" y="0" width="612" height="111">
+                    <printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+                </reportElement>
+                <staticText>
+                    <reportElement uuid="dc5cfee1-85b1-4801-aa69-4e43c6775470" x="9" y="85" width="394" height="14"/>
+                    <textElement><font fontName="ArialNarrow" size="10"/></textElement>
+                    <text>BBVA BANCOMER, S.A. INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA BANCOMER</text>
+                </staticText>
+                <staticText>
+                    <reportElement uuid="83047ec1-dc5c-4f7b-a9ec-fd90aa35e3da" x="9" y="98" width="455" height="12"/>
+                    <textElement><font fontName="ArialMT" size="8"/></textElement>
+                    <text>Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc, C.P. 06600, Ciudad de México. México R.F.C. BBA830831LJ2</text>
+                </staticText>
+            </frame>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="61">
+            <line direction="TopDown">
+                <reportElement uuid="3495d70e-3077-4b86-8760-7cbab089894a" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" mode="Opaque" x="9" y="29" width="592" height="1" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false" backcolor="rgba(0, 0, 0, 0.0)"/>
+            </line>
+            <staticText>
+                <reportElement uuid="500fdbd6-eea4-44c1-87f1-be981ad4ebd8" positionType="FixRelativeToTop" stretchType="NoStretch" isPrintRepeatedValues="true" x="9" y="13" width="141" height="15" isRemoveLineWhenBlank="false" isPrintInFirstWholeBand="false" isPrintWhenDetailOverflows="false"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="Arial" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+                </textElement>
+                <text>Total de Movimientos</text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="2e231a99-e97d-4dba-8d1f-f9c6c15834c3" x="26" y="33" width="138" height="13"/>
+                <text><![CDATA[TOTAL IMPORTE CARGOS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="2e231a99-e97d-4dba-8d1f-f9c6c15834c7" x="309" y="33" width="155" height="13"/>
+                <text><![CDATA[TOTAL MOVIMIENTOS CARGOS]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="a997cbaf-c047-4aa5-89ea-240f13ba87ce" x="233" y="33" width="50" height="13"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalImporteCargos}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0" isBlankWhenNull="true">
+                <reportElement uuid="1dbc6118-6823-4753-b8c3-3a905f780d48" x="547" y="33" width="50" height="13"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalMovimientosCargos}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="46959901-9720-4c88-b6be-8da397b609f0" x="26" y="47" width="138" height="13"/>
+                <text><![CDATA[TOTAL IMPORTE ABONOS]]></text>
+            </staticText>
+            <textField pattern="#,##0.00" isBlankWhenNull="true">
+                <reportElement uuid="a5da054c-18e8-41b8-a254-4a563b8adc09" x="233" y="47" width="50" height="13"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalImporteAbonos}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="cecdf084-74af-4b02-9056-b02a0ca561d5" x="309" y="47" width="155" height="13"/>
+                <text><![CDATA[TOTAL MOVIMIENTOS ABONOS]]></text>
+            </staticText>
+            <textField pattern="#,##0" isBlankWhenNull="true">
+                <reportElement uuid="d8a65e68-d8e1-44a7-8beb-477b3e407fff" x="547" y="48" width="50" height="13"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{totalMovimientosAbonos}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

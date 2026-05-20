@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 1. Definimos las variables: Ruta y formato del log -->
+    <!-- En Linux/Mac usa rutas absolutas como /var/log/pos-system/ -->
+    <!-- En Windows se creará una carpeta "logs" en el directorio raíz donde ejecutes el .jar -->
+    <property name="LOGS_DIR" value="/Users/davhorp/Documents/projects/github/logs/" />
+    <property name="LOG_FILE_NAME" value="pos-backend" />
+    <!-- Formato del log: Fecha, Nivel (INFO/ERROR), PID, Hilo, Clase, Mensaje -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr([%thread]){faint} %clr(%logger{36}){cyan} - %msg%n" />
+    <!-- ======================================================= -->
+    <!-- 2. Appender para la CONSOLA (Colorizado para desarrollo)-->
+    <!-- ======================================================= -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- ======================================================= -->
+    <!-- 3. Appender para el ARCHIVO (Rotación Diaria y Tamaño)  -->
+    <!-- ======================================================= -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- El archivo activo actual siempre se llamará así -->
+        <file>${LOGS_DIR}/${LOG_FILE_NAME}.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <!-- Política de Rotación: Cuándo y cómo se corta el archivo -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Patrón de nombre para los archivos antiguos (comprimidos en .gz para ahorrar espacio) -->
+            <fileNamePattern>${LOGS_DIR}/archived/${LOG_FILE_NAME}-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- Si un solo archivo diario supera los 10MB, crea otro en el mismo día (%i es el índice) -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- Cuántos días de historial quieres conservar (30 días es estándar) -->
+            <maxHistory>30</maxHistory>
+            <!-- El límite máximo total en disco de toda la carpeta de archivos archivados -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!-- ======================================================= -->
+    <!-- 4. Niveles de Log por Paquete (Filtros)                 -->
+    <!-- ======================================================= -->
+    <!-- Define el nivel base de todo Spring (INFO) -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+    <!-- AQUÍ PONES EL PAQUETE DE TU PROYECTO. -->
+    <!-- Cambia "com.tuempresa.pos" por el paquete real de tu aplicación -->
+    <!-- Ponlo en DEBUG para que veas tus propios logs detallados (como los del AuditLogAspect) -->
+    <logger name="com.tuempresa.pos" level="DEBUG" />
+    <!-- Opcional: Para ver el SQL de Hibernate que genera Spring Data (muy útil en desarrollo) -->
+    <!-- <logger name="org.hibernate.SQL" level="DEBUG" /> -->
+    <!-- <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /> -->
+</configuration>
