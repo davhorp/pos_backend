@@ -5,6 +5,7 @@
     <!-- En Windows se creará una carpeta "logs" en el directorio raíz donde ejecutes el .jar -->
     <property name="LOGS_DIR" value="/Users/davhorp/Documents/projects/github/logs/" />
     <property name="LOG_FILE_NAME" value="pos-backend" />
+
     <!-- Formato del log: Fecha, Nivel (INFO/ERROR), PID, Hilo, Clase, Mensaje -->
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr([%thread]){faint} %clr(%logger{36}){cyan} - %msg%n" />
