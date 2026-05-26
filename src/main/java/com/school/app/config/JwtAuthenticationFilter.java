@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 SecurityContextHolder.getContext().getAuthentication().getName(),
                                 SecurityContextHolder.getContext().getAuthentication().getAuthorities());
                         // Usamos DEBUG para saber que alguien entró exitosamente, sin saturar la consola en producción
-                        log.debug("AUDITORÍA - Acceso concedido a recurso protegido. Usuario: {}, URI: {}", userEmail, request.getRequestURI());
+                        log.info("AUDITORÍA - Acceso concedido a recurso protegido. Usuario: {}, URI: {}", userEmail, request.getRequestURI());
                     } else {
                         // El token es estructuralmente correcto pero belongsTo otro usuario (muy raro, posible spoofing)
                         log.warn("AUDITORÍA (ALERTA) - Token JWT inválido detectado para el usuario: {}. IP: {}", userEmail, request.getRemoteAddr());

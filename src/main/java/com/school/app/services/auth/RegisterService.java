@@ -30,7 +30,7 @@ public class RegisterService {
     @Auditable(action = SystemAuditLog.AuditAction.USER_CREATED, entityName = "USER")
     @Transactional
     public UserResponse createUser(CreateUserRequest request) {
-        log.debug("Intentando crear un nuevo usuario: {}", request.username());
+        log.info("Intentando crear un nuevo usuario: {}", request.username());
 
         // 1. Validar que el usuario no exista
         if (userRepository.existsByUsername(request.username())) {

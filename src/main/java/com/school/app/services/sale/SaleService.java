@@ -11,6 +11,7 @@ import com.school.app.repository.CashShiftRepository;
 import com.school.app.repository.ProductRepository;
 import com.school.app.repository.SaleRepository;
 import com.school.app.services.auth.AuditLogService;
+import com.school.app.services.wallet.WalletDeductBalanceService;
 import com.school.app.services.wallet.WalletService;
 import com.school.app.utils.UtilsPOS;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class SaleService {
     private final AuditLogService auditLogService;
     private final ProductRepository productRepository;
     private final CashShiftRepository cashShiftRepository;
+    private final WalletDeductBalanceService walletDeductBalanceService;
 
     /**
      * Procesa una venta completa. Descuenta inventario, asocia la venta al turno activo
@@ -62,42 +64,49 @@ public class SaleService {
             CashShift activeShift = cashShiftRepository.findByUserIdAndStatus(currentUser.getId(), ShiftStatus.OPEN)
                     .orElseThrow(() -> new IllegalStateException("No se puede cobrar: Debes tener un turno de caja abierto."));
             BigDecimal total = request.totalAmount();
-            BigDecimal amountTendered = request.amountTendered() != null ? request.amountTendered() : total;
+            // Extraemos el pago con monedero (si no viene, es 0)
+            BigDecimal walletRedeemed = request.walletRedeemedAmount() != null
+                    ? request.walletRedeemedAmount()
+                    : BigDecimal.ZERO;
+            // Calculamos el "Monto Real" que se debe pagar con el método primario
+            BigDecimal amountToPayWithPrimary = total.subtract(walletRedeemed);
+            if (amountToPayWithPrimary.compareTo(BigDecimal.ZERO) < 0) {
+                amountToPayWithPrimary = BigDecimal.ZERO;
+            }
+            BigDecimal amountTendered = request.amountTendered() != null ? request.amountTendered() : amountToPayWithPrimary;
             BigDecimal changeAmount = BigDecimal.ZERO;
             String cardBrand = null;
             String lastFourDigits = null;
             String authCode = null;
+            String bankName = null;
+            String trackingKey = null;
             // 2. 🔀 BIFURCACIÓN DE LÓGICA SEGÚN EL MÉTODO DE PAGO
             switch (paymentMethod) {
                 case CASH:
                     if (amountTendered.compareTo(total) < 0) {
                         throw new IllegalArgumentException("El monto recibido ($" + amountTendered + ") es menor al total de la venta ($" + total + ").");
                     }
-                    changeAmount = amountTendered.subtract(total);
-                    activeShift.setCashSales(activeShift.getCashSales().add(total));
+                    changeAmount = amountTendered.subtract(amountToPayWithPrimary);
+                    activeShift.setCashSales(activeShift.getCashSales().add(amountToPayWithPrimary));
                     break;
                 case CREDIT_CARD:
                 case DEBIT_CARD:
-                    amountTendered = total;
                     cardBrand = request.cardBrand();
                     lastFourDigits = request.lastFourDigits();
                     authCode = request.authCode();
-                    activeShift.setCardSales(activeShift.getCardSales().add(total));
+                    activeShift.setCardSales(activeShift.getCardSales().add(amountToPayWithPrimary));
                     break;
                 case TRANSFER:
-                    amountTendered = total;
-                    cardBrand = request.cardBrand();
-                    authCode = request.authCode();
-                    activeShift.setTransferSales(activeShift.getTransferSales().add(total));
+                    bankName = request.bankName();       // 🔥 Nuevo: Capturamos el banco origen
+                    trackingKey = request.trackingKey(); // 🔥 Nuevo: Capturamos la clave de rastreo SPEI
+                    activeShift.setTransferSales(activeShift.getTransferSales().add(amountToPayWithPrimary));
                     break;
                 case QR:
-                    amountTendered = total;
-                    cardBrand = request.cardBrand();
-                    authCode = request.authCode();
-                    activeShift.setQrSales(activeShift.getQrSales().add(total));
+                    bankName = request.bankName();
+                    trackingKey = request.trackingKey(); // En el DTO usamos transactionNumber para el QR
+                    activeShift.setQrSales(activeShift.getQrSales().add(amountToPayWithPrimary));
                     break;
-                default:
-                    amountTendered = total;
+                case ELECTRONIC_WALLET:
                     break;
             }
             cashShiftRepository.save(activeShift);
@@ -107,29 +116,34 @@ public class SaleService {
                     .cashShift(activeShift)
                     .paymentMethod(paymentMethod)
                     .totalAmount(total)
+                    .walletRedeemed(walletRedeemed)
                     .saleDate(LocalDateTime.now())
                     .amountTendered(amountTendered)
                     .changeAmount(changeAmount)
                     .cardBrand(cardBrand)
                     .lastFourDigits(lastFourDigits)
                     .authCode(authCode)
-                    .ticketNumber(utilsPOS.generatePureNumericUUID())
+                    .bankName(bankName)             // 🔥 Asignación a BD
+                    .trackingKey(trackingKey)       // 🔥 Asignación a BD
+                    .ticketNumber(utilsPOS.generatePureNumericUUID()) // Llamada estática
                     .items(new ArrayList<>())
                     .build();
-            log.debug("Procesando {} artículos para la venta. Método: {}", request.items().size(), paymentMethod);
+            log.info("Procesando {} artículos para la venta. Método: {}", request.items().size(), paymentMethod);
             // 4. Procesar los productos del carrito (SaleItems)
             for (SaleItemRequest itemReq : request.items()) {
                 Product product = productRepository.findById(itemReq.productId())
                         .orElseThrow(() -> new IllegalArgumentException("El producto con ID " + itemReq.productId() + " ya no existe."));
-                if (product.getStockQuantity() < itemReq.quantity()) {
+                // 🔥 Modificado para BigDecimal: compara stockQuantity con la cantidad solicitada
+                if (product.getStockQuantity().compareTo(itemReq.quantity()) < 0) {
                     throw new IllegalStateException("Stock insuficiente. Producto: " + product.getName() +
                             " | Solicitado: " + itemReq.quantity() +
                             " | Disponible: " + product.getStockQuantity());
                 }
-                product.setStockQuantity(product.getStockQuantity() - itemReq.quantity());
+                // 🔥 Modificado para BigDecimal: usamos subtract en lugar del operador "-"
+                product.setStockQuantity(product.getStockQuantity().subtract(itemReq.quantity()));
                 productRepository.save(product);
-                BigDecimal quantity = BigDecimal.valueOf(itemReq.quantity());
-                BigDecimal subtotal = itemReq.unitPrice().multiply(quantity);
+                // 🔥 Cálculo directo con BigDecimal
+                BigDecimal subtotal = itemReq.unitPrice().multiply(itemReq.quantity());
                 SaleItem saleItem = SaleItem.builder()
                         .sale(newSale)
                         .product(product)
@@ -141,12 +155,16 @@ public class SaleService {
             }
             // 5. Guardar Venta en Cascada
             Sale savedSale = saleRepository.save(newSale);
-            // ADICIÓN: Si el cliente proporciona su teléfono en la compra, se dispara el abono
-            if (request.customerPhone() != null && !request.customerPhone().isBlank()) {
+            if (walletRedeemed.compareTo(BigDecimal.ZERO) > 0) {
+                walletDeductBalanceService.deductBalance(request.customerPhone(), walletRedeemed, newSale.getTransactionId());
+            }
+            // ADICIÓN DE PUNTOS NUEVOS
+            // Solo generamos puntos sobre el dinero REAL pagado, no sobre lo pagado con puntos
+            if (request.customerPhone() != null && !request.customerPhone().isBlank() && amountToPayWithPrimary.compareTo(BigDecimal.ZERO) > 0) {
                 walletService.accumulateBalance(
                         request.customerPhone(),
-                        savedSale.getTotalAmount(),
-                        savedSale.getTransactionId() // Tu formato "TX-XXXXXXXXX" o Folio numérico
+                        amountToPayWithPrimary, // 🔥 Se acumula en base a la diferencia
+                        savedSale.getTransactionId()
                 );
             }
             generatedSaleId = savedSale.getId(); // Rescatamos el ID para la auditoría

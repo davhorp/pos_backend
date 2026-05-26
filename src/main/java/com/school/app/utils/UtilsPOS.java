@@ -1,8 +1,9 @@
 package com.school.app.utils;
 
-import com.school.app.dto.requets.ProductResponse;
 import com.school.app.dto.response.CashShiftResponse;
 import com.school.app.dto.response.CloseCashShiftResponse;
+import com.school.app.dto.response.ProductResponse;
+import com.school.app.dto.response.SearchProductResponse;
 import com.school.app.entity.CashShift;
 import com.school.app.entity.Product;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,20 @@ public class UtilsPOS {
         );
     }
 
+    /**
+     * Mapea una entidad Product a un record ProductResponse.
+     */
+    public ProductResponse mapToResponseProduct(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getBarcode(),
+                product.getName(),
+                product.getCurrentPrice(),
+                product.getStockQuantity(),
+                product.getCategory().name() // Convierte el Enum a String
+        );
+    }
+
     public CloseCashShiftResponse mapToResponseCloseShift(CashShift shift) {
         return new CloseCashShiftResponse(
                 shift.getId(),
@@ -51,11 +66,11 @@ public class UtilsPOS {
      * @param product La entidad Product extraída de la base de datos.
      * @return El record ProductResponse.
      */
-    public ProductResponse mapToProductResponse(Product product) {
+    public SearchProductResponse mapToProductResponse(Product product) {
         if (product == null) {
             return null;
         }
-        return new ProductResponse(
+        return new SearchProductResponse(
                 product.getId(),
                 product.getName(),
                 product.getBarcode(),

@@ -34,7 +34,7 @@ public class AuthenticationService {
     // Usamos el Aspecto (AOP) que creamos antes para guardar el log en SystemAuditLog
     @Auditable(action = SystemAuditLog.AuditAction.LOGIN_SUCCESS, entityName = "USER")
     public AuthResponse login(AuthRequest request) {
-        log.debug("Intento de login para usuario: {}", request.username());
+        log.info("Intento de login para usuario: {}", request.username());
 
         // 1. Esto valida la contraseña contra el hash de la BD automáticamente.
         // Si la contraseña es incorrecta, lanza BadCredentialsException (que ya capturamos en el GlobalExceptionHandler).

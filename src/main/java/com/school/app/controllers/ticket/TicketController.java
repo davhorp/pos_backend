@@ -68,7 +68,7 @@ public class TicketController {
             User currentUser = userRepository.findByUsername(userDetails.getUsername())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado en la base de datos"));
 
-            log.debug("Construyendo formato térmico para la impresora...");
+            log.info("Construyendo formato térmico para la impresora...");
 
             // Generar el contenido del ticket
            // String ticketContent = ticketService.generateThermalTicket(saleId);

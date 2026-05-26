@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record SaleItemRequest(
         UUID productId,
-        Integer quantity,
+        BigDecimal quantity,
         BigDecimal unitPrice
 ) {
 }

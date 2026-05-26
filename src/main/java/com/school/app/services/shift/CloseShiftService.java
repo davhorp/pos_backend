@@ -65,7 +65,7 @@ public class CloseShiftService {
             BigDecimal qrSales = BigDecimal.ZERO;
             BigDecimal totalSales = BigDecimal.ZERO;
             // 3. Obtener sumas agrupadas (¡Una sola consulta ultra rápida a la BD en lugar de 5!)
-            log.debug("Calculando totales de ventas por método de pago para el turno ID: {}", shiftId);
+            log.info("Calculando totales de ventas por método de pago para el turno ID: {}", shiftId);
             List<Object[]> sums = saleRepository.sumSalesByPaymentMethodAndShift(shiftId);
             for (Object[] row : sums) {
                 if (row[0] == null || row[1] == null) continue;

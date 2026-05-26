@@ -1,7 +1,6 @@
 package com.school.app.controllers.product;
 
-import com.school.app.dto.requets.ProductResponse;
-import com.school.app.entity.User;
+import com.school.app.dto.response.SearchProductResponse;
 import com.school.app.services.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/pos/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class SearchProductController {
 
     private final ProductService productService;
 
@@ -21,11 +20,11 @@ public class ProductController {
      * Endpoint para buscar un producto mediante el escáner de código de barras.
      */
     @GetMapping("/barcode/{barcode}")
-    public ResponseEntity<ProductResponse> getProductByBarcode(
+    public ResponseEntity<SearchProductResponse> getProductByBarcode(
             @PathVariable String barcode,
             Authentication authentication) {
 
-        log.debug("Petición REST recibida para escanear código de barras: {}", barcode);
+        log.info("Petición REST recibida para escanear código de barras: {}", barcode);
 
         return productService.findProductByBarcode(barcode, authentication)
                 .map(ResponseEntity::ok)

@@ -44,7 +44,7 @@ public class DashboardController {
         if (startDate == null || endDate == null) {
             startDate = LocalDate.now();
             endDate = LocalDate.now();
-            log.debug("No se proporcionaron fechas en la petición. Se utilizará la fecha actual: {}", startDate);
+            log.info("No se proporcionaron fechas en la petición. Se utilizará la fecha actual: {}", startDate);
         }
         DashboardResponse stats = dashboardService.getAdminDashboardStats(startDate, endDate);
         return ResponseEntity.ok(stats);

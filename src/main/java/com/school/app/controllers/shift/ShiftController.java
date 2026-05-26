@@ -34,7 +34,7 @@ public class ShiftController {
     public ResponseEntity<CashShiftResponse> getActiveShift(Authentication authentication) {
         // 1. Obtenemos el username del token JWT
         String username = authentication.getName();
-        log.debug("Verificando turno activo para el usuario: {}", username);
+        log.info("Verificando turno activo para el usuario: {}", username);
         // 2. Buscamos al usuario en la BD (podemos confiar que existe si el token es válido)
         User currentUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado en BD"));

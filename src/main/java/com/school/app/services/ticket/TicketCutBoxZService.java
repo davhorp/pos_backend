@@ -32,7 +32,7 @@ public class TicketCutBoxZService {
         // 2. Construir el Ticket
         StringBuilder ticket = new StringBuilder();
 
-        log.debug("Construyendo cabecera de la sucursal...");
+        log.info("Construyendo cabecera de la sucursal...");
         ticket.append("\n");
         ticket.append(divider()).append("\n");
         ticket.append(centerText("DAVHO´s S.A. DE C.V.")).append("\n");

@@ -3,6 +3,7 @@ package com.school.app.repository;
 import com.school.app.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,5 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
      * y evitar que dos productos tengan el mismo código de barras.
      */
     boolean existsByBarcode(String barcode);
+
+    // Consulta los productos que no han sido dados de baja
+    List<Product> findByIsActiveTrue();
 
 }

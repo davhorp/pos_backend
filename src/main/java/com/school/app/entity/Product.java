@@ -1,5 +1,6 @@
 package com.school.app.entity;
 
+import com.school.app.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,12 +29,12 @@ public class Product {
     @Column(name = "current_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal currentPrice;
 
-    @Column(name = "stock_quantity", nullable = false)
-    private Integer stockQuantity;
+    @Column(name = "stock_quantity", nullable = false, precision = 10, scale = 3)
+    private BigDecimal stockQuantity;
 
-    @Column(name = "min_stock", nullable = false)
+    @Column(name = "min_stock", nullable = false, precision = 10, scale = 3)
     @Builder.Default
-    private Integer minStock = 5;
+    private BigDecimal minStock = new BigDecimal("5.000");
 
     @Column(name = "is_active", nullable = false)
     @Builder.Default
@@ -41,4 +42,10 @@ public class Product {
 
     @Column(name = "image_url", length = 500)
     private String imageUrl;
+
+    // 🔥 CAMBIO: Nueva columna de categoría
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    @Builder.Default
+    private ProductCategory category = ProductCategory.ABARROTES;
 }

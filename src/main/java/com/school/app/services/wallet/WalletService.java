@@ -41,43 +41,50 @@ public class WalletService {
     @Transactional
     @Auditable(action = SystemAuditLog.AuditAction.ABONO_MONEDERO, entityName = "WALLETS")
     public BigDecimal accumulateBalance(String phoneNumber, BigDecimal purchaseTotal, String ticketNumber) {
-        log.info("Iniciando proceso de acumulación de monedero para el teléfono: {} desde el ticket: {}", phoneNumber, ticketNumber);
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            log.debug("No se proporcionó número telefónico. Se omite el abono al monedero.");
+        log.info("[WalletService] Iniciando proceso de acumulación de monedero para el teléfono: {} desde el ticket: {}", phoneNumber, ticketNumber);
+        // 1. Validaciones iniciales de seguridad
+        if (phoneNumber == null || phoneNumber.trim().isBlank()) {
+            log.warn("[WalletService] No se proporcionó número telefónico. Se omite el abono al monedero.");
             return BigDecimal.ZERO;
         }
-        // 1. Calcular el monto a otorgar (Redondeado a 2 decimales hacia arriba/mitad)
+        if (purchaseTotal == null || purchaseTotal.compareTo(BigDecimal.ZERO) <= 0) {
+            log.warn("[WalletService] Monto de compra inválido o nulo (${}). Proceso cancelado.", purchaseTotal);
+            return BigDecimal.ZERO;
+        }
+        // 2. Calcular el monto a otorgar (Redondeado a 2 decimales hacia arriba/mitad)
         BigDecimal amountToEarn = purchaseTotal.multiply(ACCUMULATION_RATE).setScale(2, RoundingMode.HALF_UP);
         if (amountToEarn.compareTo(BigDecimal.ZERO) <= 0) {
-            log.warn("El monto calculado para acumular es menor o igual a cero (${}). Proceso cancelado.", amountToEarn);
+            log.warn("[WalletService] El monto calculado para acumular es menor o igual a cero (${}). Proceso cancelado.", amountToEarn);
             return BigDecimal.ZERO;
         }
-        // 2. Obtener el monedero existente o crear uno nuevo si es su primera interacción
+        // 3. Obtener el monedero existente o crear uno nuevo si es su primera interacción
         Wallet wallet = walletRepository.findByPhoneNumber(phoneNumber)
                 .orElseGet(() -> {
-                    log.info("Monedero no encontrado para el teléfono: {}. Registrando nueva cuenta digital.", phoneNumber);
-                    Wallet newWallet = new Wallet();
-                    newWallet.setPhoneNumber(phoneNumber);
-                    newWallet.setBalance(BigDecimal.ZERO);
+                    log.info("[WalletService] Monedero no encontrado para el teléfono: {}. Registrando nueva cuenta digital.", phoneNumber);
+                    Wallet newWallet = Wallet.builder()
+                            .phoneNumber(phoneNumber)
+                            .balance(BigDecimal.ZERO)
+                            .build();
                     return walletRepository.save(newWallet);
                 });
-        // 3. Incrementar el saldo
+        // 4. Incrementar el saldo
         BigDecimal oldBalance = wallet.getBalance();
         wallet.setBalance(oldBalance.add(amountToEarn));
         walletRepository.save(wallet);
-        // 4. Registrar auditoría histórica del movimiento
-        WalletTransaction transaction = new WalletTransaction();
-        transaction.setWallet(wallet);
-        transaction.setAmount(amountToEarn);
-        transaction.setTransactionType(WalletTxType.ACCUMULATION);
-        transaction.setReferenceTicket(ticketNumber);
+        // 5. Registrar auditoría histórica del movimiento
+        WalletTransaction transaction = WalletTransaction.builder()
+                .wallet(wallet)
+                .amount(amountToEarn)
+                .transactionType(WalletTxType.ACCUMULATION) // Tu Enum de tipo de transacción
+                .referenceTicket(ticketNumber)
+                .build();
         this.generateWalletTransacction(transaction);
         log.info("✅ Monedero actualizado con éxito. Teléfono: {} | Abonado: ${} | Saldo Anterior: ${} | Nuevo Saldo: ${}",
                 phoneNumber, amountToEarn, oldBalance, wallet.getBalance());
         return amountToEarn;
     }
 
-    @Auditable(action = SystemAuditLog.AuditAction.TICKET_MONEDERO, entityName = "WALLET_TRANSACTIONS")
+    @Auditable(action = SystemAuditLog.AuditAction.MONEDERO_TRANSACCION, entityName = "WALLET_TRANSACTIONS")
     private void generateWalletTransacction(WalletTransaction transaction){
         transactionRepository.save(transaction);
 

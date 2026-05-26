@@ -3,11 +3,10 @@ package com.school.app.services.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.app.audit.Auditable;
-import com.school.app.dto.requets.ProductResponse;
+import com.school.app.dto.response.SearchProductResponse;
 import com.school.app.entity.SystemAuditLog;
 import com.school.app.entity.User;
 import com.school.app.repository.ProductRepository;
-import com.school.app.repository.SystemAuditLogRepository;
 import com.school.app.repository.UserRepository;
 import com.school.app.services.auth.AuditLogService;
 import com.school.app.utils.UtilsPOS;
@@ -47,18 +46,18 @@ public class ProductService {
      *
      * @param barcode     El código de barras extraído por el hardware.
      * @param authentication El usuario (Cajero) que está operando la terminal.
-     * @return Un {@link Optional} que contiene el DTO {@link ProductResponse} si el producto
+     * @return Un {@link Optional} que contiene el DTO {@link SearchProductResponse} si el producto
      *         existe en el catálogo, o un Optional vacío si no se encuentra.
      */
     @Auditable(action = SystemAuditLog.AuditAction.SEARCH_PRODUCT, entityName = "PRODUCT")
-    public Optional<ProductResponse> findProductByBarcode(String barcode, Authentication authentication) {
+    public Optional<SearchProductResponse> findProductByBarcode(String barcode, Authentication authentication) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         long startTime = System.currentTimeMillis();
         boolean exito = true;
         String mensajeError = null;
-        Optional<ProductResponse> productOpt = Optional.empty();
+        Optional<SearchProductResponse> productOpt = Optional.empty();
         try {
-            log.debug("Verificando sesión para el usuario: {}", authentication.getName());
+            log.info("Verificando sesión para el usuario: {}", authentication.getName());
             // 1. Buscamos al usuario en la BD
             User currentUser = userRepository.findByUsername(authentication.getName())
                     .orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado en BD"));

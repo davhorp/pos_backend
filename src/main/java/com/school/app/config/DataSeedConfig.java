@@ -63,7 +63,7 @@ public class DataSeedConfig {
             userRepository.save(user);
             log.info("✅ Usuario {} [{}] creado exitosamente.", role, username);
         } else {
-            log.debug("ℹ️ El usuario {} ya existe, omitiendo creación.", username);
+            log.info("ℹ️ El usuario {} ya existe, omitiendo creación.", username);
         }
     }
 }

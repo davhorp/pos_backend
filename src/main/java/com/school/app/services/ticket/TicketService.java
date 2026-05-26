@@ -3,8 +3,10 @@ package com.school.app.services.ticket;
 import com.school.app.audit.Auditable;
 import com.school.app.dto.response.TicketResponse;
 import com.school.app.entity.*;
+import com.school.app.enums.WalletTxType;
 import com.school.app.repository.SaleRepository;
 import com.school.app.repository.SaleTicketRepository;
+import com.school.app.repository.WalletTransactionRepository;
 import com.school.app.services.auth.AuditLogService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,6 +32,7 @@ public class TicketService {
     private final SaleRepository saleRepository;
     private final SaleTicketRepository saleTicketRepository;
     private final AuditLogService auditLogService;
+    private final WalletTransactionRepository walletTransactionRepository;
     // Ancho estándar para impresoras térmicas de 58mm
     private static final int TICKET_WIDTH = 47;
 
@@ -49,11 +54,11 @@ public class TicketService {
                 return new IllegalArgumentException("Venta no encontrada con ID: " + saleId);
             });
 
-            log.debug("Venta encontrada. Cajero: {}, Artículos: {}", sale.getUser().getUsername(), sale.getItems().size());
+            log.info("Venta encontrada. Cajero: {}, Artículos: {}", sale.getUser().getUsername(), sale.getItems().size());
             StringBuilder ticket = new StringBuilder();
 
             // 1. CABECERA DE LA TIENDA
-            log.debug("Construyendo cabecera de la sucursal...");
+            log.info("Construyendo cabecera de la sucursal...");
             ticket.append("\n");
             ticket.append(divider()).append("\n");
             ticket.append(centerText("DAVHO´s S.A. DE C.V.")).append("\n");
@@ -81,18 +86,29 @@ public class TicketService {
             ticket.append(divider()).append("\n");
 
             // 4. DETALLE DE PRODUCTOS
-            log.debug("Procesando líneas de productos...");
+            log.info("Procesando líneas de productos...");
             for (SaleItem item : sale.getItems()) {
-                String productLine = item.getQuantity() + "x " + item.getProduct().getName();
-                if (productLine.length() > 33) productLine = productLine.substring(0, 33);
-                String subtotalStr = "$" + item.getSubtotal().toString();
-                ticket.append(leftRightText(productLine, subtotalStr)).append("\n\n");
-                ticket.append(leftRightText("Articulos vendidos: " + sale.getItems().size(), "Transacción: " + sale.getTransactionId()));
+                // Llamamos al nuevo método auxiliar
+                String productLine = formatProductLine(item);
+                // Formateamos el subtotal
+                String subtotalStr = String.format("$%.2f", item.getSubtotal());
+                // Ensamblamos la línea en el ticket
+                ticket.append(leftRightText(productLine, subtotalStr)).append("\n");
             }
+            ticket.append("\n");
+            ticket.append(leftRightText("Articulos vendidos: " + sale.getItems().size(), "Transacción: " + sale.getTransactionId())).append("\n");
             ticket.append(divider()).append("\n");
             // 5. TOTALES Y PAGOS (Reemplazo por un Switch más limpio y tipado)
-            log.debug("Procesando sección de pagos (Método: {})...", sale.getPaymentMethod());
-            ticket.append(leftRightText("TOTAL:", String.format("$%.2f", sale.getTotalAmount()))).append("\n");
+            log.info("Procesando sección de pagos (Método: {})...", sale.getPaymentMethod());
+            BigDecimal walletRedeemed = sale.getWalletRedeemed() != null ? sale.getWalletRedeemed() : BigDecimal.ZERO;
+            if (walletRedeemed.compareTo(BigDecimal.ZERO) > 0) {
+                ticket.append(leftRightText("SUBTOTAL:", String.format("$%.2f", sale.getTotalAmount()))).append("\n");
+                ticket.append(leftRightText("DESC. MONEDERO:", String.format("-$%.2f", walletRedeemed))).append("\n");
+                BigDecimal totalReal = sale.getTotalAmount().subtract(walletRedeemed);
+                ticket.append(leftRightText("TOTAL A PAGAR:", String.format("$%.2f", totalReal))).append("\n");
+            } else {
+                ticket.append(leftRightText("TOTAL A PAGAR:", String.format("$%.2f", sale.getTotalAmount()))).append("\n");
+            }
             switch (sale.getPaymentMethod()) {
                 case CASH:
                     String recibido = sale.getAmountTendered() != null ? String.format("$%.2f", sale.getAmountTendered()) : "$0.00";
@@ -127,6 +143,24 @@ public class TicketService {
                     ticket.append("\n").append(centerText("PAGO POR MEDIOS DIGITALES")).append("\n");
                     break;
             }
+            // 6. SECCIÓN DE RECOMPENSAS / MONEDERO DIGITAL 🔥
+            // Buscamos si en ESTA venta el cliente acumuló puntos usando el TransactionId
+            Optional<WalletTransaction> earnedTx = walletTransactionRepository
+                    .findByReferenceTicketAndTransactionType(sale.getTransactionId(), WalletTxType.ACCUMULATION);
+
+            if (earnedTx.isPresent() || walletRedeemed.compareTo(BigDecimal.ZERO) > 0) {
+                ticket.append(divider()).append("\n");
+                ticket.append(centerText("--- MONEDERO DIGITAL DAVHO'S ---")).append("\n");
+
+                if (walletRedeemed.compareTo(BigDecimal.ZERO) > 0) {
+                    ticket.append(leftRightText("Saldo Utilizado:", String.format("-$%.2f", walletRedeemed))).append("\n");
+                }
+
+                if (earnedTx.isPresent()) {
+                    ticket.append(leftRightText("Puntos Ganados:", String.format("+$%.2f", earnedTx.get().getAmount()))).append("\n");
+                    ticket.append(leftRightText("Saldo Disponible:", String.format("$%.2f", earnedTx.get().getWallet().getBalance()))).append("\n");
+                }
+            }
             ticket.append(asterisk()).append("\n");
             ticket.append(centerText("Recuerda que puedes realizar")).append("\n");
             ticket.append(centerText("recargas de tiempo aire en todas")).append("\n");
@@ -138,7 +172,7 @@ public class TicketService {
             ticket.append(centerText("Este ticket no es un")).append("\n");
             ticket.append(centerText("comprobante fiscal.")).append("\n");
             ticket.append(divider()).append("\n");
-            log.debug("Contenido del ticket ensamblado. Guardando en base de datos...");
+            log.info("Contenido del ticket ensamblado. Guardando en base de datos...");
             SaleTicket document = SaleTicket.builder()
                     .sale(sale)
                     .ticketContent(ticket.toString())
@@ -164,6 +198,31 @@ public class TicketService {
                     request.getRequestURI(),
                     request.getUserPrincipal().getName());
         }
+    }
+
+    /**
+     * Formatea la línea de descripción del producto para el ticket.
+     * Convierte la cantidad a piezas o kilos según corresponda y trunca a 33 caracteres.
+     */
+    private String formatProductLine(SaleItem item) {
+        BigDecimal qty = item.getQuantity();
+        String productName = item.getProduct().getName();
+        String productLine;
+        // Evaluar si es un número entero (piezas) o fraccionario (granel)
+        if (qty.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) == 0) {
+            int piezas = qty.intValue();
+            String sufijo = (piezas == 1) ? "pz" : "pzas";
+            productLine = String.format("%d%s %s", piezas, sufijo, productName);
+        } else {
+            // Limpiar ceros inútiles del peso
+            String pesoLimpio = qty.stripTrailingZeros().toPlainString();
+            productLine = String.format("%sKg %s", pesoLimpio, productName);
+        }
+        // Truncar a 33 caracteres para respetar el margen de la impresora térmica
+        if (productLine.length() > 33) {
+            return productLine.substring(0, 33);
+        }
+        return productLine;
     }
 
     // --- MÉTODOS AUXILIARES PARA FORMATO DE TEXTO ---

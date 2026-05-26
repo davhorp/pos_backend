@@ -11,6 +11,9 @@ public record SaleRequest(
         String cardBrand,
         String lastFourDigits,
         String authCode,
-        String customerPhone
+        String customerPhone,
+        String bankName,
+        BigDecimal walletRedeemedAmount,
+        String trackingKey
 ) {
 }

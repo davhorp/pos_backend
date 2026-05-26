@@ -89,7 +89,7 @@ public class SaleController {
             }
 
             // 2. Procesar la venta en el servicio (lógica transaccional auditada)
-            log.debug("Enviando payload al SaleService para validación de stock y creación de ticket...");
+            log.info("Enviando payload al SaleService para validación de stock y creación de ticket...");
             SaleResponse response = saleService.processCheckout(saleRequest, currentUser, method);
 
             // 3. Log de éxito
