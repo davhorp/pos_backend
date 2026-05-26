@@ -18,4 +18,5 @@ public @interface Auditable {
 
     // Opcional: El nombre de la entidad afectada (ej. "PRODUCT", "SALE")
     String entityName() default "";
+
 }

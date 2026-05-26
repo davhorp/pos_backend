@@ -50,7 +50,7 @@ public class SecurityConfig {
                         // Endpoints protegidos
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/documents/**").hasAnyRole("ADMIN", "BROKER", "CLIENT")
-
+                        .requestMatchers("/api/pos/**").authenticated()
                         // Cualquier otra petición debe estar autenticada
                         .anyRequest().authenticated()
                 )
@@ -61,6 +61,8 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             log.warn("AUDITORÍA (SEGURIDAD) - Acceso NO AUTORIZADO (401) intentado en URI: {} desde IP: {}. Motivo: {}",
                                     request.getRequestURI(), request.getRemoteAddr(), authException.getMessage());
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("Full authentication is required to access this resource");
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No autorizado para acceder a este recurso");
                         })
                         // Atrapa el HTTP 403 (Autenticado, pero sin el Rol necesario)

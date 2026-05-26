@@ -1,5 +1,6 @@
 package com.school.app.audit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.app.entity.SystemAuditLog;
 import com.school.app.entity.User;
 import com.school.app.repository.SystemAuditLogRepository;
@@ -7,16 +8,19 @@ import com.school.app.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Optional;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -25,78 +29,111 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuditLogAspect {
 
-    private final SystemAuditLogRepository auditLogRepository;
-    private final UserRepository userRepository;
+    private final SystemAuditLogRepository auditRepository;
+    private final UserRepository userRepository; // Para buscar la entidad User
+    private final ObjectMapper objectMapper;
+    /**
+     * Usamos @Around para envolver el método.
+     * Pasar la anotación 'auditable' en los parámetros nos permite leer sus valores (action, entityName) directamente.
+     */
+    @Around(value = "@annotation(auditable)")
+    public Object auditMethod(ProceedingJoinPoint joinPoint, Auditable auditable) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        boolean exito = true;
+        String mensajeError = null;
+        Object result = null;
 
-    @AfterReturning(value = "@annotation(auditable)", returning = "result")
-    public void logAuditActivity(JoinPoint joinPoint, Auditable auditable, Object result) {
-        log.debug("Iniciando captura de auditoría para la acción: {}", auditable.action());
+        String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
+        String methodName = joinPoint.getSignature().getName();
 
-        SystemAuditLog auditLog = new SystemAuditLog();
-        auditLog.setActionType(auditable.action());
-        auditLog.setEntityName(auditable.entityName());
-
-        // 1. Obtener el usuario autenticado
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            String username = authentication.getName();
-            Optional<User> userOptional = userRepository.findByUsername(username);
-
-            userOptional.ifPresent(user -> {
-                auditLog.setUser(user);
-                log.debug("Usuario vinculado a la auditoría: {}", username);
-            });
-        } else {
-            // Un WARN es útil aquí, por ejemplo, si un endpoint público dispara una acción auditable
-            log.warn("No se detectó un usuario autenticado para la acción: {}", auditable.action());
-        }
-
-        // 2. Obtener la IP
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes != null) {
-            HttpServletRequest request = attributes.getRequest();
-            String ip = getClientIp(request);
-            auditLog.setIpAddress(ip);
-            log.debug("IP capturada: {}", ip);
-        }
-
-        // 3. Capturar el ID de la entidad afectada mediante Reflection
-        if (result != null) {
-            try {
-                UUID entityId = (UUID) result.getClass().getMethod("getId").invoke(result);
-                auditLog.setEntityId(entityId);
-                log.debug("Entity ID extraído exitosamente: {}", entityId);
-
-            } catch (NoSuchMethodException e) {
-                // Usamos TRACE o DEBUG porque no es un error real, solo significa que
-                // el método no retorna un objeto con getId() (ej. devuelve un boolean o String)
-                log.trace("El objeto retornado tipo {} no posee un método getId(). Se omite el entityId.",
-                        result.getClass().getSimpleName());
-            } catch (Exception e) {
-                // ERROR sí es pertinente si hay un fallo de acceso o seguridad en Java Reflection
-                log.error("Fallo inesperado al intentar extraer el ID por Reflection del objeto: {}",
-                        result.getClass().getSimpleName(), e);
-            }
-        }
-
-        // 4. Guardar en Base de Datos
         try {
-            auditLogRepository.save(auditLog);
-            log.info("Registro de auditoría guardado exitosamente -> Acción: {} | Entidad: {}",
-                    auditable.action(), auditable.entityName());
-        } catch (Exception e) {
-            // Un fallo al guardar la auditoría no hace rollback de la transacción principal por defecto,
-            // pero es un error crítico para el área de seguridad que debe alertarse.
-            log.error("Fallo crítico al insertar el registro de auditoría en la base de datos.", e);
+            // 1. Ejecutamos el método original
+            result = joinPoint.proceed();
+            return result;
+
+        } catch (Throwable e) {
+            // 2. Si hay error, lo capturamos para el JSON de auditoría
+            exito = false;
+            mensajeError = e.getMessage();
+            throw e;
+
+        } finally {
+            // 3. Bloque de construcción de la auditoría (Garantizado)
+            try {
+                // --- A. Extraer IP ---
+                String ipAddress = "SISTEMA_INTERNO";
+                RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+                if (attributes != null) {
+                    HttpServletRequest request = ((ServletRequestAttributes) attributes).getRequest();
+                    ipAddress = request.getHeader("X-Forwarded-For");
+                    if (ipAddress == null || ipAddress.isEmpty()) {
+                        ipAddress = request.getRemoteAddr();
+                    }
+                }
+
+                // --- B. Extraer Usuario Autenticado ---
+                User currentUser = null;
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+                    // Opcional: Podrías guardar el User en la sesión para evitar ir a la BD,
+                    // pero esta es la forma más segura si necesitas la relación @ManyToOne real.
+                    currentUser = userRepository.findByUsername(auth.getName()).orElse(null);
+                }
+
+                // --- C. Construir el JSON de detalles (detailsPayload) ---
+                Map<String, Object> payload = new HashMap<>();
+                payload.put("modulo", className + "." + methodName);
+                payload.put("tiempo_ejecucion_ms", System.currentTimeMillis() - startTime);
+                payload.put("exito", exito);
+                if (!exito) {
+                    payload.put("error", mensajeError);
+                }
+
+                String jsonPayload = objectMapper.writeValueAsString(payload);
+
+                // --- D. Intentar extraer el Entity ID del resultado (Opcional pero muy útil) ---
+                UUID entityId = tryExtractIdFromResult(result);
+
+                // --- E. Guardar en Base de Datos usando tu Entidad ---
+                SystemAuditLog auditLog = SystemAuditLog.builder()
+                        .actionType(auditable.action())
+                        .entityName(auditable.entityName())
+                        .ipAddress(ipAddress)
+                        .user(currentUser)
+                        .detailsPayload(jsonPayload)
+                        .entityId(entityId)
+                        .build();
+
+                auditRepository.save(auditLog);
+
+            } catch (Exception ex) {
+                log.error("Error catastrófico guardando auditoría (Aspecto): {}", ex.getMessage());
+            }
         }
     }
 
-    private String getClientIp(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null || xfHeader.isEmpty() || !xfHeader.contains(request.getRemoteAddr())) {
-            return request.getRemoteAddr();
+    /**
+     * Método helper usando Reflection.
+     * Intenta sacar el UUID dinámicamente si el método original devolvió
+     * una Entidad o DTO que tenga el método getId() o id() (Records).
+     */
+    private UUID tryExtractIdFromResult(Object result) {
+        if (result == null) return null;
+        try {
+            // Intenta para Clases tradicionales (DTOs/Entidades con @Getter)
+            Method getIdMethod = result.getClass().getMethod("getId");
+            Object idObj = getIdMethod.invoke(result);
+            if (idObj instanceof UUID) return (UUID) idObj;
+        } catch (Exception ignored) {
+            try {
+                // Intenta para Records de Java 14+ (tienen un método id() directo)
+                Method idMethod = result.getClass().getMethod("id");
+                Object idObj = idMethod.invoke(result);
+                if (idObj instanceof UUID) return (UUID) idObj;
+            } catch (Exception alsoIgnored) {
+                // Si no tiene ninguno de los dos, simplemente retornamos null
+            }
         }
-        // Devuelve la primera IP en caso de pasar por múltiples proxies
-        return xfHeader.split(",")[0];
+        return null;
     }
 }

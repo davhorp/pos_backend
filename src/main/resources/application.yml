@@ -38,6 +38,7 @@ spring:
     #password: rootpwd
     password: d4vh0rp90
   jpa:
+    ##open-in-view: false
     hibernate:
       ##ddl-auto: create-drop
       ddl-auto: update

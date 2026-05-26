@@ -1,0 +1,114 @@
+package com.school.app.services.ticket;
+
+import com.school.app.entity.CashShift;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class TicketCutBoxZService {
+
+    // Ancho estándar para impresoras térmicas de 58mm
+    private static final int TICKET_WIDTH = 41;
+
+    /**
+     * Genera el formato de texto plano para el ticket de Corte Z,
+     * optimizado para impresoras térmicas de 58mm (32 caracteres).
+     */
+    public String generateZReportText(CashShift shift) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // 1. Extraer variables seguras
+
+        String tipoDescuadre = shift.getDiscrepancyCash().compareTo(BigDecimal.ZERO) >= 0 ? "SOBRANTE" : "FALTANTE";
+        String discrepanciaAbs = String.format("$%.2f", shift.getDiscrepancyCash().abs());
+
+        // 2. Construir el Ticket
+        StringBuilder ticket = new StringBuilder();
+
+        log.debug("Construyendo cabecera de la sucursal...");
+        ticket.append("\n");
+        ticket.append(divider()).append("\n");
+        ticket.append(centerText("DAVHO´s S.A. DE C.V.")).append("\n");
+        ticket.append(centerText("Av. Pdte, Masaryk 8,")).append("\n");
+        ticket.append(centerText("Polanco V Secc, Miguel Hidalgo")).append("\n");
+        ticket.append(centerText("C.P. 11560, CMDX")).append("\n");
+        ticket.append(centerText("RFC: REPJ545667RD7")).append("\n");
+        ticket.append(centerText("Personal Moral Regimen General de Ley")).append("\n");
+        ticket.append(divider()).append("\n");
+        // 1.2 SUCURSAL
+        ticket.append(centerText("Sucursal: 385 - La Curva")).append("\n");
+        ticket.append(centerText("Av. Morelos sn lt, Fracc B")).append("\n");
+        ticket.append(centerText("Col. Valle de Ecatepec, Estado Mexico")).append("\n");
+        ticket.append(divider()).append("\n");
+        // METADATOS
+        ticket.append("FECHA: ").append(LocalDateTime.now().toLocalDate().format(formatter)).append("\n");
+        ticket.append("TURNO:  ").append(shift.getId().toString().substring(0, 8).toUpperCase()).append("\n");
+        ticket.append("CAJERO: ").append(shift.getUser().getFullName() != null ? shift.getUser().getFullName() : "CAJERO").append("\n");
+        ticket.append("ABRE:   ").append(shift.getStartTime() != null ? shift.getStartTime().format(formatter) : "N/A").append("\n");
+        ticket.append("CIERRA: ").append(shift.getEndTime() != null ? shift.getEndTime().format(formatter) : "N/A").append("\n");
+        ticket.append(divider()).append("\n");
+        // INGRESOS
+        ticket.append(centerText("INGRESOS POR METODO")).append("\n");
+        ticket.append(divider()).append("\n");
+        ticket.append(leftRightText("EFECTIVO:", String.format("$%.2f", shift.getCashSales()))).append("\n");
+        ticket.append(leftRightText("TARJETA:", String.format("$%.2f", shift.getCardSales()))).append("\n");
+        ticket.append(leftRightText("TRANSFERENCIA:", String.format("$%.2f", shift.getTransferSales()))).append("\n");
+        ticket.append(leftRightText("PAGO QR:", String.format("$%.2f", shift.getQrSales()))).append("\n");
+        ticket.append(divider()).append("\n");
+        ticket.append(leftRightText("TOTAL VENTAS:", String.format("$%.2f", shift.getTotalSales()))).append("\n");
+        ticket.append(divider()).append("\n");
+
+        // CUADRE FÍSICO
+        ticket.append(centerText("CUADRE DE EFECTIVO")).append("\n");
+        ticket.append(divider()).append("\n");
+        ticket.append(leftRightText("FONDO INICIAL:", String.format("$%.2f", shift.getStartingCash()))).append("\n");
+        ticket.append(leftRightText("+ V. EFECTIVO:", String.format("$%.2f", shift.getCashSales()))).append("\n");
+        ticket.append(leftRightText("= ESPERADO:", String.format("$%.2f", shift.getExpectedCash()))).append("\n");
+        ticket.append(leftRightText("DECLARADO:", String.format("$%.2f", shift.getDeclaredCash()))).append("\n");
+        ticket.append(divider()).append("\n");
+
+        ticket.append(leftRightText(tipoDescuadre + ":", discrepanciaAbs)).append("\n");
+        ticket.append(divider()).append("\n");
+
+        // PIE DE PÁGINA Y FIRMAS
+        ticket.append("\n\n\n");
+        ticket.append(centerText("_________________________")).append("\n");
+        ticket.append(centerText("FIRMA DEL CAJERO")).append("\n");
+        ticket.append("\n");
+        ticket.append(centerText("Software por EduCore")).append("\n");
+        ticket.append(centerText("Ari Capital Humano")).append("\n");
+        ticket.append(divider()).append("\n\n"); // Doble salto final para que la guillotina corte bien
+
+        return ticket.toString();
+    }
+
+    private String centerText(String text) {
+        if (text.length() >= TICKET_WIDTH) return text.substring(0, TICKET_WIDTH);
+        int spaces = (TICKET_WIDTH - text.length()) / 2;
+        return " ".repeat(spaces) + text + " ".repeat(TICKET_WIDTH - text.length() - spaces);
+    }
+
+    private String leftRightText(String left, String right) {
+        if (left.length() + right.length() >= TICKET_WIDTH) {
+            return left.substring(0, TICKET_WIDTH - right.length() - 1) + " " + right;
+        }
+        int spaces = TICKET_WIDTH - left.length() - right.length();
+        return left + " ".repeat(spaces) + right;
+    }
+
+    private String divider() {
+        return "-".repeat(TICKET_WIDTH);
+    }
+
+    private String asterisk() {
+        return "*".repeat(TICKET_WIDTH);
+    }
+
+}

@@ -7,13 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j // Inyecta el logger que escribirá en el archivo físico
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     // 1. Manejo de errores de negocio (Ej: Stock Insuficiente)
@@ -30,6 +34,21 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiErrorResponse> handleAuthenticationException(
+            AuthenticationException ex, HttpServletRequest request) {
+
+        ApiErrorResponse error = new ApiErrorResponse(
+                OffsetDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                "Se requiere autenticación completa para acceder a este recurso.",
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     // 2. Manejo de errores de Autenticación (Credenciales incorrectas)
@@ -91,5 +110,17 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Captura las validaciones de negocio fallidas, como intentar abrir una caja ya abierta.
+     * Retorna un 400 Bad Request con un JSON que Angular puede leer fácilmente.
+     */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalStateException(IllegalStateException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        errorResponse.put("error", "Regla de Negocio Inválida");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

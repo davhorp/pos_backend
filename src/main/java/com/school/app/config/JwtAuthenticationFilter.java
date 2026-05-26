@@ -66,6 +66,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         // 5. Actualizar el contexto
                         SecurityContextHolder.getContext().setAuthentication(authToken);
+                        log.info("Usuario: {} | Autoridades: {}",
+                                SecurityContextHolder.getContext().getAuthentication().getName(),
+                                SecurityContextHolder.getContext().getAuthentication().getAuthorities());
                         // Usamos DEBUG para saber que alguien entró exitosamente, sin saturar la consola en producción
                         log.debug("AUDITORÍA - Acceso concedido a recurso protegido. Usuario: {}, URI: {}", userEmail, request.getRequestURI());
                     } else {
