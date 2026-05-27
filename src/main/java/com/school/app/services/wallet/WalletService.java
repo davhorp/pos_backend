@@ -1,10 +1,12 @@
 package com.school.app.services.wallet;
 
 import com.school.app.audit.Auditable;
-import com.school.app.entity.SystemAuditLog;
-import com.school.app.entity.Wallet;
-import com.school.app.entity.WalletTransaction;
+import com.school.app.dto.requets.ProductSummaryDto;
+import com.school.app.dto.requets.TransactionDetailDto;
+import com.school.app.dto.requets.WalletStatementDto;
+import com.school.app.entity.*;
 import com.school.app.enums.WalletTxType;
+import com.school.app.repository.SaleRepository;
 import com.school.app.repository.WalletRepository;
 import com.school.app.repository.WalletTransactionRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Servicio encargado de gestionar los saldos y transacciones del monedero electrónico.
@@ -23,8 +29,9 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor
 public class WalletService {
 
+    private final SaleRepository saleRepository;
     private final WalletRepository walletRepository;
-    private final WalletTransactionRepository transactionRepository;
+    private final WalletTransactionRepository walletTransactionRepository;
 
     // Tasa de acumulación: 2% del total de la compra (ej: Compra de $100 acumula $2.00)
     private static final BigDecimal ACCUMULATION_RATE = new BigDecimal("0.02");
@@ -86,7 +93,87 @@ public class WalletService {
 
     @Auditable(action = SystemAuditLog.AuditAction.MONEDERO_TRANSACCION, entityName = "WALLET_TRANSACTIONS")
     private void generateWalletTransacction(WalletTransaction transaction){
-        transactionRepository.save(transaction);
+        walletTransactionRepository.save(transaction);
+    }
 
+    /**
+     * Recopila y estructura toda la información del monedero de un cliente,
+     * incluyendo el desglose de productos comprados en cada movimiento,
+     * ideal para exportación a PDF o reportes detallados.
+     *
+     * @param phoneNumber Número de celular del cliente.
+     * @return WalletStatementDto con los datos estructurados.
+     */
+    @Transactional(readOnly = true)
+    @Auditable(action = SystemAuditLog.AuditAction.CONSULTA_MONEDERO, entityName = "WALLETS") // Ajusta el Enum según tu clase SystemAuditLog
+    public WalletStatementDto getStatementData(String phoneNumber) {
+        log.info("[WalletService] Iniciando recopilación de datos para estado de cuenta. Cliente: {}", phoneNumber);
+        long startTime = System.currentTimeMillis();
+        try {
+            // 1. Validación y extracción del monedero base
+            Wallet wallet = walletRepository.findByPhoneNumber(phoneNumber)
+                    .orElseThrow(() -> {
+                        log.warn("[WalletService] Intento de consulta fallido: Monedero no encontrado para {}", phoneNumber);
+                        return new IllegalArgumentException("No existe un monedero asociado al número " + phoneNumber);
+                    });
+            // 2. Extraer historial (Usamos el mismo método del ticket térmico)
+            log.info("[WalletService] Consultando historial de transacciones para monedero ID: {}", wallet.getId());
+            List<WalletTransaction> transactions = walletTransactionRepository.findTop10ByWalletOrderByCreatedAtDesc(wallet);
+            log.info("[WalletService] Se recuperaron {} transacciones para procesar.", transactions.size());
+            // 3. Mapear transacciones y buscar detalle de productos
+            List<TransactionDetailDto> transactionDtos = new ArrayList<>();
+            for (WalletTransaction tx : transactions) {
+                List<ProductSummaryDto> productDtos = new ArrayList<>();
+                // Si la transacción tiene un folio de venta, cruzamos la información con SaleRepository
+                if (tx.getReferenceTicket() != null && !tx.getReferenceTicket().trim().isEmpty()) {
+                    Optional<Sale> saleOpt = saleRepository.findByTransactionId(tx.getReferenceTicket());
+                    if (saleOpt.isPresent()) {
+                        Sale sale = saleOpt.get();
+                        // Convertir los artículos de la venta al sub-DTO
+                        for (SaleItem item : sale.getItems()) {
+                            productDtos.add(new ProductSummaryDto(
+                                    item.getProduct().getName(),
+                                    item.getQuantity(),
+                                    item.getUnitPrice()
+                            ));
+                        }
+                    } else {
+                        log.info("[WalletService] Transacción {}: El ticket {} no se encontró en la tabla de Ventas.",
+                                tx.getId(), tx.getReferenceTicket());
+                    }
+                }
+                // Definir texto amigable para el PDF
+                String tipoMovimiento = tx.getTransactionType() == WalletTxType.ACCUMULATION ? "BONIFICACIÓN" : "CARGO";
+                // Agregar el movimiento a la lista final
+                transactionDtos.add(new TransactionDetailDto(
+                        tx.getCreatedAt(),
+                        tipoMovimiento,
+                        tx.getAmount(),
+                        tx.getReferenceTicket() != null ? tx.getReferenceTicket() : "MOVIMIENTO INTERNO",
+                        productDtos
+                ));
+            }
+            WalletStatementDto statementData = new WalletStatementDto(
+                    wallet.getPhoneNumber(),
+                    "N/A",
+                    wallet.getBalance(),
+                    LocalDateTime.now(),
+                    transactionDtos
+            );
+            // 5. Métricas y finalización
+            long duration = System.currentTimeMillis() - startTime;
+            log.info("[WalletService] Estado de cuenta generado exitosamente. Teléfono: {} | Tiempo de proceso: {}ms",
+                    phoneNumber, duration);
+            return statementData;
+        } catch (IllegalArgumentException e) {
+            // Se relanza tal cual para que el controlador devuelva un 400 Bad Request
+            throw e;
+        } catch (Exception e) {
+            // Atrapa errores de BD o Nulos inesperados
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("[WalletService] Error CRÍTICO generando estado de cuenta para {}. Tiempo: {}ms. Excepción: {}",
+                    phoneNumber, duration, e.getMessage(), e);
+            throw new RuntimeException("Error interno al procesar los datos del monedero.");
+        }
     }
 }

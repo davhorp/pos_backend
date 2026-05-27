@@ -8,7 +8,9 @@ public record ProductResponse(
         String barcode,
         String name,
         BigDecimal price,       // Mapeado desde currentPrice
-        BigDecimal stockQuantity,
+        Integer stockQuantity,
+        String unitOfMeasure,
+        String imageUrl,
         String category
 ) {
 }

@@ -43,6 +43,9 @@ public class Product {
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 
+    @Column(name = "unit_of_measure", length = 20)
+    private String unitOfMeasure = "PZA"; // Valor por defecto seguro
+
     // 🔥 CAMBIO: Nueva columna de categoría
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)

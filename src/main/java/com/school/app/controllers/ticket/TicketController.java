@@ -52,10 +52,8 @@ public class TicketController {
             @PathVariable UUID saleId,
             @AuthenticationPrincipal UserDetails userDetails,
             HttpServletRequest httpRequest) {
-
         log.info("Solicitud de impresión de ticket recibida. Venta ID: [{}]. Usuario: [{}]",
                 saleId, userDetails != null ? userDetails.getUsername() : "ANÓNIMO");
-
         try {
             // Validar autenticación
             if (userDetails == null) {
@@ -63,20 +61,14 @@ public class TicketController {
                         new ApiErrorResponse(OffsetDateTime.now(), 401, "Unauthorized", "Falta token de seguridad.", httpRequest.getRequestURI())
                 );
             }
-
             // Validar que el usuario exista
             User currentUser = userRepository.findByUsername(userDetails.getUsername())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado en la base de datos"));
-
             log.info("Construyendo formato térmico para la impresora...");
-
             // Generar el contenido del ticket
            // String ticketContent = ticketService.generateThermalTicket(saleId);
-
             log.info("Ticket generado exitosamente para la Venta ID: [{}].", saleId);
-
             return ResponseEntity.ok(ticketService.generateThermalTicket(saleId));
-
         } catch (IllegalArgumentException e) {
             log.warn("Intento de imprimir ticket de una venta inexistente. ID: [{}]. Motivo: {}", saleId, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

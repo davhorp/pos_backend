@@ -56,8 +56,11 @@ public class SystemAuditLog {
     public enum AuditAction {
         LOGIN_SUCCESS,
         LOGIN_FAILED,
+        CONSULTA_MONEDERO,
+        EDO_CTA_WALLET_CLIENT,
         REGISTRO_VENTA_SISTEMA,
         ABONO_MONEDERO,
+        ENVIO_CORREO,
         TICKET_MONEDERO,
         PRODUCTOS_ACTIVOS,
         CONSULTAR_DASHBOARD,

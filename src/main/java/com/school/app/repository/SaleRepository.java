@@ -9,11 +9,16 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SaleRepository extends JpaRepository<Sale, UUID> {
 
     /**
+     *
+     * 🔥 CONSULTA CRÍTICA PARA EL CORTE Z
+     * Obtiene el total vendido agrupado por método de pago para un turno específico.
+     * Esta consulta es mucho más eficiente que traer todas las ventas a Java y sumarlas manualmente.
      * Agrupa y suma el monto total de las ventas filtrando por el ID del turno y el método de pago.
      * Es ultra eficiente porque trae todos los desgloses en una sola consulta.
      *
@@ -75,5 +80,10 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
     List<Object[]> sumTotalSalesByPaymentMethodBetweenDates(
             @Param("startDate") OffsetDateTime startDate,
             @Param("endDate") OffsetDateTime endDate);
+
+    /**
+     * Busca una venta específica por su folio de transacción o número de ticket único.
+     */
+    Optional<Sale> findByTransactionId(String transactionId);
 
 }

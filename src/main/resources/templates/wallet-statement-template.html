@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Estado de Cuenta - Monedero</title>
+    <style>
+        body { font-family: 'Helvetica', sans-serif; color: #333; line-height: 1.6; }
+        .header { text-align: center; border-bottom: 2px solid #10b981; padding-bottom: 10px; }
+        .info-section { margin: 20px 0; background: #f9f9f9; padding: 15px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #10b981; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        .amount-positive { color: #059669; font-weight: bold; }
+        .amount-negative { color: #dc2626; font-weight: bold; }
+        .footer { margin-top: 40px; text-align: center; font-size: 0.8em; color: #777; }
+        .product-list { font-size: 0.85em; color: #555; margin: 0; padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>DAVHO'S - Estado de Cuenta</h1>
+    <p>Programa de Lealtad</p>
+</div>
+
+<div class="info-section">
+    <p><strong>Cliente:</strong> <span th:text="${statement.customerName()}">Nombre Cliente</span></p>
+    <p><strong>Teléfono:</strong> <span th:text="${statement.phoneNumber()}">5512345678</span></p>
+    <p><strong>Saldo Actual:</strong> <span th:text="${#numbers.formatCurrency(statement.currentBalance())}">$0.00</span></p>
+    <p><strong>Fecha de Emisión:</strong> <span th:text="${#temporals.format(statement.generationDate(), 'dd/MM/yyyy HH:mm')}">01/01/2026</span></p>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Folio</th>
+        <th>Monto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tx : ${statement.transactions()}">
+        <td th:text="${#temporals.format(tx.date(), 'dd/MM/yyyy')}">01/05/2026</td>
+        <td th:text="${tx.type()}">CARGO</td>
+        <td th:text="${tx.referenceTicket()}">TICKET-123</td>
+        <td>
+                <span th:class="${tx.type() == 'BONIFICACIÓN' ? 'amount-positive' : 'amount-negative'}"
+                      th:text="${(tx.type() == 'BONIFICACIÓN' ? '+' : '-') + #numbers.formatCurrency(tx.amount())}">
+                    $0.00
+                </span>
+            <ul class="product-list" th:if="${!tx.products().isEmpty()}">
+                <li th:each="prod : ${tx.products()}">
+                    <span th:text="${prod.productName()}">Producto</span> x
+                    <span th:text="${prod.quantity()}">1</span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <p>Este documento es informativo y refleja los movimientos en el sistema Davho's POS.</p>
+    <p>Gracias por ser parte de nuestra comunidad.</p>
+</div>
+</body>
+</html>

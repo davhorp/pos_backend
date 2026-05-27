@@ -89,9 +89,12 @@ public class CloseShiftService {
             // Nota: Dependiendo de si tu Request es un Record o Clase, usa request.declaredCash() o getDeclaredCash()
             BigDecimal declaredCash = request.declaredCash();
             BigDecimal discrepancy = declaredCash.subtract(expectedCash);
+            BigDecimal walletRedeemed = shift.getWalletRedeemed() != null ? shift.getWalletRedeemed() : BigDecimal.ZERO;
+            BigDecimal walletAwarded = shift.getWalletAwarded() != null ? shift.getWalletAwarded() : BigDecimal.ZERO;
             finalDiscrepancy = discrepancy;
             log.info("Arqueo Turno ID: {}. Esperado: {}, Declarado: {}, Diferencia: {}",
                     shiftId, expectedCash, declaredCash, discrepancy);
+            log.info("Monedero Turno ID: {}. Canjeado: {}, Otorgado: {}", shiftId, walletRedeemed, walletAwarded);
             // 5. Poblar la entidad con todos los datos calculados
             shift.setCashSales(cashSales);
             shift.setCardSales(cardSales);
@@ -101,6 +104,8 @@ public class CloseShiftService {
             shift.setExpectedCash(expectedCash);
             shift.setDeclaredCash(declaredCash);
             shift.setDiscrepancyCash(discrepancy);
+            shift.setWalletRedeemed(walletRedeemed);
+            shift.setWalletAwarded(walletAwarded);
             shift.setEndTime(LocalDateTime.now());
             shift.setDiscrepancyReason(request.discrepancyReason());
             shift.setStatus(ShiftStatus.CLOSED);

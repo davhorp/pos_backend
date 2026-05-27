@@ -77,6 +77,13 @@ public class CashShift {
     private BigDecimal transferSales = BigDecimal.ZERO;
 
     @Builder.Default
+    @Column(name = "wallet_redeemed", precision = 12, scale = 2)
+    private BigDecimal walletRedeemed = BigDecimal.ZERO;
+    @Builder.Default
+    @Column(name = "wallet_awarded", precision = 12, scale = 2)
+    private BigDecimal walletAwarded = BigDecimal.ZERO;
+
+    @Builder.Default
     @Column(name = "qr_sales", precision = 12, scale = 2, nullable = false)
     private BigDecimal qrSales = BigDecimal.ZERO;
 

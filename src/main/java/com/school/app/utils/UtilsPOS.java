@@ -6,6 +6,7 @@ import com.school.app.dto.response.ProductResponse;
 import com.school.app.dto.response.SearchProductResponse;
 import com.school.app.entity.CashShift;
 import com.school.app.entity.Product;
+import com.school.app.entity.SaleItem;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -39,9 +40,36 @@ public class UtilsPOS {
                 product.getBarcode(),
                 product.getName(),
                 product.getCurrentPrice(),
-                product.getStockQuantity(),
+                product.getStockQuantity().intValue(),
+                product.getUnitOfMeasure(),
+                product.getImageUrl(),
                 product.getCategory().name() // Convierte el Enum a String
         );
+    }
+
+    /**
+     * Formatea la línea de descripción del producto para el ticket.
+     * Convierte la cantidad a piezas o kilos según corresponda y trunca a 33 caracteres.
+     */
+    public String formatProductLine(SaleItem item) {
+        BigDecimal qty = item.getQuantity();
+        String productName = item.getProduct().getName();
+        String productLine;
+        // Evaluar si es un número entero (piezas) o fraccionario (granel)
+        if (qty.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) == 0) {
+            int piezas = qty.intValue();
+            String sufijo = (piezas == 1) ? "pz" : "pzas";
+            productLine = String.format("%d%s %s", piezas, sufijo, productName);
+        } else {
+            // Limpiar ceros inútiles del peso
+            String pesoLimpio = qty.stripTrailingZeros().toPlainString();
+            productLine = String.format("%sKg %s", pesoLimpio, productName);
+        }
+        // Truncar a 33 caracteres para respetar el margen de la impresora térmica
+        if (productLine.length() > 33) {
+            return productLine.substring(0, 33);
+        }
+        return productLine;
     }
 
     public CloseCashShiftResponse mapToResponseCloseShift(CashShift shift) {
@@ -118,5 +146,27 @@ public class UtilsPOS {
         BigDecimal difference = current.subtract(previous);
         BigDecimal percentage = difference.divide(previous, 4, RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
         return percentage.setScale(1, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    public String centerText(String text, int ticketWidth) {
+        if (text.length() >= ticketWidth) return text.substring(0, ticketWidth);
+        int spaces = (ticketWidth - text.length()) / 2;
+        return " ".repeat(spaces) + text + " ".repeat(ticketWidth - text.length() - spaces);
+    }
+
+    public String leftRightText(String left, String right, int ticketWidth) {
+        if (left.length() + right.length() >= ticketWidth) {
+            return left.substring(0, ticketWidth - right.length() - 1) + " " + right;
+        }
+        int spaces = ticketWidth - left.length() - right.length();
+        return left + " ".repeat(spaces) + right;
+    }
+
+    public String divider(int ticketWidth) {
+        return "-".repeat(ticketWidth);
+    }
+
+    public String asterisk(int ticketWidth) {
+        return "*".repeat(ticketWidth);
     }
 }

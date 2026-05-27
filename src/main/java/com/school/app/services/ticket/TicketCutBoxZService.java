@@ -23,7 +23,7 @@ public class TicketCutBoxZService {
      */
     public String generateZReportText(CashShift shift) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         // 1. Extraer variables seguras
 
         String tipoDescuadre = shift.getDiscrepancyCash().compareTo(BigDecimal.ZERO) >= 0 ? "SOBRANTE" : "FALTANTE";
@@ -64,7 +64,14 @@ public class TicketCutBoxZService {
         ticket.append(divider()).append("\n");
         ticket.append(leftRightText("TOTAL VENTAS:", String.format("$%.2f", shift.getTotalSales()))).append("\n");
         ticket.append(divider()).append("\n");
-
+        // Requiere que agregues estos campos a tu entidad CashShift
+        BigDecimal walletRedeemed = shift.getWalletRedeemed() != null ? shift.getWalletRedeemed() : BigDecimal.ZERO;
+        BigDecimal walletAwarded = shift.getWalletAwarded() != null ? shift.getWalletAwarded() : BigDecimal.ZERO;
+        ticket.append(centerText("MOVIMIENTOS MONEDERO")).append("\n");
+        ticket.append(divider()).append("\n");
+        ticket.append(leftRightText("SALDO CANJEADO:", String.format("-$%.2f", walletRedeemed))).append("\n");
+        ticket.append(leftRightText("PUNTOS OTORGADOS:", String.format("+$%.2f", walletAwarded))).append("\n");
+        ticket.append(divider()).append("\n");
         // CUADRE FÍSICO
         ticket.append(centerText("CUADRE DE EFECTIVO")).append("\n");
         ticket.append(divider()).append("\n");
@@ -73,10 +80,8 @@ public class TicketCutBoxZService {
         ticket.append(leftRightText("= ESPERADO:", String.format("$%.2f", shift.getExpectedCash()))).append("\n");
         ticket.append(leftRightText("DECLARADO:", String.format("$%.2f", shift.getDeclaredCash()))).append("\n");
         ticket.append(divider()).append("\n");
-
         ticket.append(leftRightText(tipoDescuadre + ":", discrepanciaAbs)).append("\n");
         ticket.append(divider()).append("\n");
-
         // PIE DE PÁGINA Y FIRMAS
         ticket.append("\n\n\n");
         ticket.append(centerText("_________________________")).append("\n");

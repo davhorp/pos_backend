@@ -155,18 +155,28 @@ public class SaleService {
             }
             // 5. Guardar Venta en Cascada
             Sale savedSale = saleRepository.save(newSale);
+            // 6. 🔥 OPERACIONES DEL MONEDERO DIGITAL Y ACTUALIZACIÓN DEL TURNO
+            BigDecimal puntosGanados = BigDecimal.ZERO;
+            // Acumular Puntos (Sobre el dinero real pagado) y capturar el valor
             if (walletRedeemed.compareTo(BigDecimal.ZERO) > 0) {
                 walletDeductBalanceService.deductBalance(request.customerPhone(), walletRedeemed, newSale.getTransactionId());
             }
-            // ADICIÓN DE PUNTOS NUEVOS
-            // Solo generamos puntos sobre el dinero REAL pagado, no sobre lo pagado con puntos
+            // Acumular Puntos (Sobre el dinero real pagado) y capturar el valor
             if (request.customerPhone() != null && !request.customerPhone().isBlank() && amountToPayWithPrimary.compareTo(BigDecimal.ZERO) > 0) {
-                walletService.accumulateBalance(
+                puntosGanados = walletService.accumulateBalance(
                         request.customerPhone(),
-                        amountToPayWithPrimary, // 🔥 Se acumula en base a la diferencia
+                        amountToPayWithPrimary,
                         savedSale.getTransactionId()
                 );
             }
+            // Sumar al Turno de Caja (Prevención contra nulls en turnos viejos)
+            BigDecimal currentRedeemed = activeShift.getWalletRedeemed() != null ? activeShift.getWalletRedeemed() : BigDecimal.ZERO;
+            BigDecimal currentAwarded = activeShift.getWalletAwarded() != null ? activeShift.getWalletAwarded() : BigDecimal.ZERO;
+
+            activeShift.setWalletRedeemed(currentRedeemed.add(walletRedeemed));
+            activeShift.setWalletAwarded(currentAwarded.add(puntosGanados));
+
+            cashShiftRepository.save(activeShift);
             generatedSaleId = savedSale.getId(); // Rescatamos el ID para la auditoría
             log.info("Venta guardada en Base de Datos. Ticket ID: {}", generatedSaleId);
             // 6. Retornar el Ticket ID a Angular
