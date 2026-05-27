@@ -56,6 +56,7 @@ public class SystemAuditLog {
     public enum AuditAction {
         LOGIN_SUCCESS,
         LOGIN_FAILED,
+        IMPRIMIR_TICKET_CORTE_Z,
         CONSULTA_MONEDERO,
         EDO_CTA_WALLET_CLIENT,
         REGISTRO_VENTA_SISTEMA,
@@ -64,6 +65,8 @@ public class SystemAuditLog {
         TICKET_MONEDERO,
         PRODUCTOS_ACTIVOS,
         CONSULTAR_DASHBOARD,
+        CONSULTA_SALDO_WALLET,
+        CONSULTA_SALDO_MONEDERO,
         VIEW_ADMIN_DASHBOARD,
         DEDUCIR_SALDO_WALLET,
         SEED_USER,

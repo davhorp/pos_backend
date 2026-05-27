@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 /**
- * Controlador REST {@Link TicketController} encargado de la generación y emisión de tickets de venta.
+ * Controlador REST {@link TicketController} encargado de la generación y emisión de tickets de venta.
  * Permite obtener el formato crudo (plain text) de una venta para ser
  * enviado directamente a una impresora térmica por el cliente (frontend).
  *
@@ -66,7 +66,8 @@ public class TicketController {
             // Generar el contenido del ticket
            // String ticketContent = ticketService.generateThermalTicket(saleId);
             log.info("Ticket generado exitosamente para la Venta ID: [{}].", saleId);
-            return ResponseEntity.ok(ticketService.generateThermalTicket(saleId));
+            //return ResponseEntity.ok(ticketService.generateThermalTicket(saleId));
+            return ResponseEntity.ok(ticketService.generateThermalTicketHtml(saleId));
         } catch (IllegalArgumentException e) {
             log.warn("Intento de imprimir ticket de una venta inexistente. ID: [{}]. Motivo: {}", saleId, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

@@ -110,7 +110,8 @@ public class CloseShiftService {
             shift.setDiscrepancyReason(request.discrepancyReason());
             shift.setStatus(ShiftStatus.CLOSED);
             // 6. GENERAR Y GUARDAR EL TICKET HTML
-            String ticketHtml = ticketCutBoxZService.generateZReportText(shift);
+            //String ticketHtml = ticketCutBoxZService.generateZReportText(shift);
+            String ticketHtml = ticketCutBoxZService.generateZReportHtml(shift);
             log.info("TICKET CORTE Z: \n\n");
             log.info(ticketHtml);
             log.info("\n");

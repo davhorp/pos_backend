@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +39,61 @@ public class TicketService {
     private final WalletTransactionRepository walletTransactionRepository;
     // Ancho estándar para impresoras térmicas de 58mm
     private static final int TICKET_WIDTH = 47;
+
+    private final SpringTemplateEngine templateEngine;
+
+    @Auditable(action = SystemAuditLog.AuditAction.IMPRIMIR_TICKET, entityName = "SALE_TICKET")
+    @Transactional
+    public TicketResponse generateThermalTicketHtml(UUID saleId) {
+        long startTime = System.currentTimeMillis();
+        boolean exito = true;
+        String errorMsg = null;
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        log.info("Iniciando generación de ticket térmico en HTML para la venta con ID: {}", saleId);
+        try {
+            Sale sale = saleRepository.findById(saleId).orElseThrow(() -> {
+                log.error("Fallo al generar ticket: No se encontró la venta con ID {}", saleId);
+                return new IllegalArgumentException("Venta no encontrada con ID: " + saleId);
+            });
+            // Buscar transacciones de monedero (misma lógica que ya tenías)
+            BigDecimal walletRedeemed = sale.getWalletRedeemed() != null ? sale.getWalletRedeemed() : BigDecimal.ZERO;
+            Optional<WalletTransaction> earnedTx = walletTransactionRepository
+                    .findByReferenceTicketAndTransactionType(sale.getTransactionId(), WalletTxType.ACCUMULATION);
+            // Preparar el contexto de Thymeleaf (las variables para el HTML)
+            Context context = new Context();
+            context.setVariable("sale", sale);
+            context.setVariable("ticketIdShort", sale.getId().toString().substring(0, 8).toUpperCase());
+            context.setVariable("shiftIdShort", sale.getCashShift().getId().toString().substring(0, 8).toUpperCase());
+            context.setVariable("walletRedeemed", walletRedeemed);
+            earnedTx.ifPresent(walletTransaction -> context.setVariable("earnedTx", walletTransaction));
+            String htmlContent = templateEngine.process("ticket-sale", context);
+            // 3. Guardar en base de datos
+            log.info("Contenido del ticket HTML ensamblado. Guardando en base de datos...");
+            SaleTicket document = SaleTicket.builder()
+                    .sale(sale)
+                    .ticketContent(htmlContent) // Ahora guardas el código HTML completo
+                    .build();
+            SaleTicket savedTicket = saleTicketRepository.save(document);
+            return new TicketResponse(htmlContent, sale.getTicketNumber(), "TICKET_SALE_".concat(sale.getId().toString()));
+        } catch (Exception e) {
+            exito = false;
+            errorMsg = e.getMessage();
+            throw e;
+        } finally {
+            // Tu bloque de auditoría se mantiene exactamente igual
+            auditLogService.logActivity(
+                    "IMPRIMIR_TICKET",
+                    "TicketService.generateThermalTicket",
+                    "Generación de ticket HTML para saleId: " + saleId,
+                    startTime,
+                    exito,
+                    errorMsg,
+                    request.getRemoteAddr(),
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    request.getUserPrincipal().getName());
+        }
+    }
 
     /**
      * Genera el contenido de texto plano formateado para el ticket de venta.

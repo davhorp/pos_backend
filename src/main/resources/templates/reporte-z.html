@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Corte Z - Turno</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #ffffff;
+        }
+        .ticket {
+            width: 280px; /* Ajuste ideal para impresoras térmicas de 58mm a 80mm */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            color: #000000;
+            line-height: 1.3;
+            padding: 5px;
+            margin: 0 auto;
+        }
+        .center {
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .divider {
+            border-top: 1px dashed #000000;
+            margin: 5px 0;
+        }
+        .flex-justify {
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature-box {
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ticket">
+
+    <div class="divider"></div>
+    <div class="center bold">DAVHO´s S.A. DE C.V.</div>
+    <div class="center">Av. Pdte, Masaryk 8,</div>
+    <div class="center">Polanco V Secc, Miguel Hidalgo</div>
+    <div class="center">C.P. 11560, CMDX</div>
+    <div class="center">RFC: REPJ545667RD7</div>
+    <div class="center">Personal Moral Regimen General de Ley</div>
+    <div class="divider"></div>
+
+    <div class="center">Sucursal: 385 - La Curva</div>
+    <div class="center">Av. Morelos sn lt, Fracc B</div>
+    <div class="center">Col. Valle de Ecatepec, Estado Mexico</div>
+    <div class="divider"></div>
+
+    <div class="flex-justify">
+        <span>FECHA REPORTE:</span>
+        <span th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy')}">27/05/2026</span>
+    </div>
+    <div class="flex-justify">
+        <span>TURNO:</span>
+        <span th:text="${shiftIdShort}">ABC12345</span>
+    </div>
+    <div class="flex-justify">
+        <span>CAJERO:</span>
+        <span th:text="${shift.user.fullName != null ? shift.user.fullName : 'CAJERO'}">NOMBRE CAJERO</span>
+    </div>
+    <div class="flex-justify">
+        <span>ABRE:</span>
+        <span th:text="${shift.startTime != null ? #temporals.format(shift.startTime, 'dd/MM/yyyy HH:mm') : 'N/A'}">00/00/0000 00:00</span>
+    </div>
+    <div class="flex-justify">
+        <span>CIERRA:</span>
+        <span th:text="${shift.endTime != null ? #temporals.format(shift.endTime, 'dd/MM/yyyy HH:mm') : 'N/A'}">00/00/0000 00:00</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="center bold">INGRESOS POR METODO</div>
+    <div class="divider"></div>
+    <div class="flex-justify">
+        <span>EFECTIVO:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.cashSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>TARJETA:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.cardSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>TRANSFERENCIA:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.transferSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>PAGO QR:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.qrSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="divider"></div>
+    <div class="flex-justify bold">
+        <span>TOTAL VENTAS:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.totalSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="center bold">MOVIMIENTOS MONEDERO</div>
+    <div class="divider"></div>
+    <div class="flex-justify">
+        <span>SALDO CANJEADO:</span>
+        <span th:text="${'-$' + #numbers.formatDecimal(shift.walletRedeemed != null ? shift.walletRedeemed : 0, 1, 2)}">-$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>PUNTOS OTORGADOS:</span>
+        <span th:text="${'+$' + #numbers.formatDecimal(shift.walletAwarded != null ? shift.walletAwarded : 0, 1, 2)}">+$0.00</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="center bold">CUADRE DE EFECTIVO</div>
+    <div class="divider"></div>
+    <div class="flex-justify">
+        <span>FONDO INICIAL:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.startingCash, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>+ V. EFECTIVO:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.cashSales, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify bold">
+        <span>= ESPERADO:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.expectedCash, 1, 2)}">$0.00</span>
+    </div>
+    <div class="flex-justify">
+        <span>DECLARADO:</span>
+        <span th:text="${'$' + #numbers.formatDecimal(shift.declaredCash, 1, 2)}">$0.00</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="flex-justify bold">
+        <span th:text="${shift.discrepancyCash >= 0 ? 'SOBRANTE:' : 'FALTANTE:'}">DESCUADRE:</span>
+        <!--<span th:text="${'$' + #numbers.formatDecimal(Math.abs(shift.discrepancyCash), 1, 2)}">$0.00</span>-->
+        <span th:text="${'$' + #numbers.formatDecimal(shift.discrepancyCash.abs(), 1, 2)}">$0.00</span>
+    </div>
+    <div class="divider"></div>
+
+    <div class="signature-box">
+        <div class="center">_________________________</div>
+        <div class="center bold">FIRMA DEL CAJERO</div>
+    </div>
+
+    <div class="center" style="margin-top: 20px;">Software por EduCore</div>
+    <div class="center">Ari Capital Humano</div>
+    <div class="divider" style="margin-bottom: 30px;"></div> </div>
+
+</body>
+</html>

@@ -27,7 +27,8 @@ public class GenerateWalletStatementTicketController {
     public ResponseEntity<TicketResponse> getWalletStatementTicket(@PathVariable String phoneNumber) {
         log.info("Solicitud REST recibida para generar ticket de estado de cuenta. Teléfono: {}", phoneNumber);
         try {
-            TicketResponse response = generateWalletStatementTicketService.generateWalletStatementTicket(phoneNumber);
+            //TicketResponse response = generateWalletStatementTicketService.generateWalletStatementTicket(phoneNumber);
+            TicketResponse response = generateWalletStatementTicketService.generateWalletStatementTicketHtml(phoneNumber);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             log.warn("Error al generar estado de cuenta: {}", e.getMessage());

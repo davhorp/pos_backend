@@ -1,6 +1,7 @@
 package com.school.app.config;
 
 import com.school.app.exceptions.ExpiredJwtException;
+import com.school.app.services.auth.AuditLogService;
 import com.school.app.services.auth.JwtService;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
@@ -29,8 +30,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final AuditLogService auditLogService;
 
-    @Override
+   /* @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
@@ -89,6 +91,91 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("AUDITORÍA - Error inesperado procesando el JWT de la IP {}: {}", request.getRemoteAddr(), e.getMessage());
         }
         // Continuar con la cadena (Si falló algo arriba, el contexto sigue nulo y Spring lanzará 403 Forbidden)
+        filterChain.doFilter(request, response);
+    }*/
+
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        // 2. Inicializar variables para la auditoría
+        long startTime = System.currentTimeMillis();
+        boolean exito = false;
+        String errorMsg = "Sin errores";
+        String userForAudit = "ANÓNIMO"; // Usuario por defecto si falla antes de extraer el email
+
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String userEmail;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            log.info("AUDITORÍA - Petición sin token JWT o formato incorrecto. URI: {}", request.getRequestURI());
+            filterChain.doFilter(request, response);
+            return; // No auditamos peticiones públicas aquí para no saturar la base de datos
+        }
+
+        jwt = authHeader.substring(7);
+
+        try {
+            userEmail = jwtService.extractUsername(jwt);
+            if (userEmail != null) {
+                userForAudit = userEmail; // Actualizamos el usuario para la auditoría
+            }
+
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                try {
+                    UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+                    if (jwtService.isTokenValid(jwt, userDetails)) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                        // Autenticación exitosa
+                        exito = true;
+                        log.info("AUDITORÍA - Acceso concedido a recurso protegido. Usuario: {}, URI: {}", userEmail, request.getRequestURI());
+                    } else {
+                        errorMsg = "Token JWT inválido o alterado";
+                        log.warn("AUDITORÍA (ALERTA) - Token JWT inválido detectado para el usuario: {}. IP: {}", userEmail, request.getRemoteAddr());
+                    }
+                } catch (UsernameNotFoundException e) {
+                    errorMsg = "Usuario no encontrado en base de datos";
+                    log.error("AUDITORÍA (CRÍTICO) - El token contiene un email ({}) que ya no existe.", userEmail);
+                }
+            }
+        } catch (ExpiredJwtException e) {
+            errorMsg = "Token JWT expirado";
+            log.warn("AUDITORÍA - Intento de acceso con token expirado. URI: {}, IP: {}", request.getRequestURI(), request.getRemoteAddr());
+        } catch (MalformedJwtException e) {
+            errorMsg = "Token JWT malformado";
+            log.error("AUDITORÍA (PELIGRO) - Token JWT alterado o malformado detectado. IP: {}", request.getRemoteAddr());
+        } catch (Exception e) {
+            errorMsg = "Error inesperado: " + e.getMessage();
+            log.error("AUDITORÍA - Error inesperado procesando el JWT de la IP {}: {}", request.getRemoteAddr(), e.getMessage());
+        } finally {
+            // 3. Ejecutar la auditoría siempre, sin importar si hubo éxito o excepción
+            auditLogService.logActivity(
+                    "Autenticación JWT",         // action
+                    "Seguridad",                 // modulo
+                    "Validación de token",       // detalles
+                    startTime,                   // startTime
+                    exito,                       // exito
+                    errorMsg,                    // errorMsg
+                    request.getRemoteAddr(),     // IP remota
+                    request.getMethod(),         // GET, POST, etc.
+                    request.getRequestURI(),     // Endpoint solicitado
+                    userForAudit                 // Usuario (Seguro contra NullPointerException)
+            );
+        }
+
+        // 4. Continuar con la cadena de filtros
         filterChain.doFilter(request, response);
     }
 }

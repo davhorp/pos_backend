@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,9 +33,26 @@ public class GenerateWalletStatementTicketService {
     private final WalletTransactionRepository walletTransactionRepository;
     private final SaleRepository saleRepository;
     private final UtilsPOS utilsPOS;
+    private final SpringTemplateEngine templateEngine;
     // Ancho estándar para impresoras térmicas de 58mm
     private static final int TICKET_WIDTH = 47;
 
+    @Auditable(action = SystemAuditLog.AuditAction.EDO_CTA_WALLET_CLIENT, entityName = "WALLET")
+    @Transactional(readOnly = true)
+    public TicketResponse generateWalletStatementTicketHtml(String phoneNumber) {
+        // ... (Mantén tu lógica de auditoría y captura de Request igual)
+        Wallet wallet = walletRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new IllegalArgumentException("Monedero no encontrado: " + phoneNumber));
+        List<WalletTransaction> transactions = walletTransactionRepository.findTop10ByWalletOrderByCreatedAtDesc(wallet);
+        Context context = new Context();
+        context.setVariable("wallet", wallet);
+        context.setVariable("phoneNumber", phoneNumber);
+        context.setVariable("transactions", transactions);
+        // Pasamos el repositorio al contexto para buscar ventas desde el HTML
+        context.setVariable("saleRepository", saleRepository);
+        String htmlContent = templateEngine.process("edo-cta-wallet", context);
+        return new TicketResponse(htmlContent, wallet.getId().toString(), "TICKET_EDO_WALLET_" + phoneNumber);
+    }
     /**
      * Genera un ticket de Estado de Cuenta del Monedero con el detalle de los productos.
      */

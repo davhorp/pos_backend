@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket de Venta</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #ffffff;
+        }
+        .ticket {
+            width: 280px; /* Ajuste ideal para impresoras térmicas de 58mm a 80mm */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            color: #000000;
+            line-height: 1.3;
+            padding: 5px;
+            margin: 0 auto;
+        }
+        .center {
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .divider {
+            border-top: 1px dashed #000000;
+            margin: 5px 0;
+        }
+        .asterisk-bar {
+            text-align: center;
+            letter-spacing: 2px;
+            margin: 5px 0;
+        }
+        .flex-justify {
+            display: flex;
+            justify-content: space-between;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5px 0;
+        }
+        .items-table th {
+            border-bottom: 1px dashed #000;
+            text-align: left;
+            font-weight: bold;
+        }
+        .items-table td {
+            padding: 2px 0;
+            vertical-align: top;
+        }
+        .promo-box {
+            border: 1px dashed #000;
+            padding: 5px;
+            margin: 8px 0;
+            text-align: center;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ticket">
+
+    <div class="divider"></div>
+    <div class="center bold">DAVHO´s S.A. DE C.V.</div>
+    <div class="center">Av. Pdte, Masaryk 8,</div>
+    <div class="center">Polanco V Secc, Miguel Hidalgo</div>
+    <div class="center">C.P. 11560, CMDX</div>
+    <div class="center">RFC: REPJ545667RD7</div>
+    <div class="center">Personal Moral Regimen General de Ley</div>
+    <div class="divider"></div>
+
+    <div class="center">Sucursal: 385 - La Curva</div>
+    <div class="center">Av. Morelos sn lt, Fracc B</div>
+    <div class="center">Col. Valle de Ecatepec, Estado Mexico</div>
+    <div class="divider"></div>
+
+    <div class="flex-justify">
+        <span>FECHA:</span>
+        <span th:text="${#temporals.format(sale.saleDate, 'dd/MM/yyyy HH:mm')}">27/05/2026 11:00</span>
+    </div>
+    <div class="flex-justify">
+        <span>TICKET:</span>
+        <span th:text="${ticketIdShort}">ABC12345</span>
+    </div>
+    <div class="flex-justify">
+        <span>CAJERO:</span>
+        <span th:text="${sale.user.username}">Cajero01</span>
+    </div>
+    <div class="flex-justify">
+        <span>TURNO:</span>
+        <span th:text="${shiftIdShort}">TURNO01</span>
+    </div>
+    <div class="divider"></div>
+
+    <table class="items-table">
+        <thead>
+        <tr>
+            <th style="width: 15%;">CANT</th>
+            <th style="width: 60%;">DESCRIPCION</th>
+            <th style="width: 25%; text-align: right;">IMPORTE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${sale.items}">
+            <td th:text="${item.quantity.intValue()}">1</td>
+            <td th:text="${item.product.name}">PRODUCTO EJEMPLO</td>
+            <td class="right" th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 2)}">$0.00</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="flex-justify" style="margin-top: 5px;">
+        <span th:text="'Articulos vendidos: ' + ${sale.items.size()}">Articulos: 0</span>
+    </div>
+    <div class="flex-justify" style="margin-top: 5px;">
+        <span th:text="'Transacción: ' + ${sale.transactionId}">Tx: N/A</span>
+    </div>
+    <div class="divider"></div>
+
+    <div th:if="${walletRedeemed > 0}">
+        <div class="flex-justify">
+            <span>SUBTOTAL:</span>
+            <span th:text="${'$' + #numbers.formatDecimal(sale.totalAmount, 1, 2)}">$0.00</span>
+        </div>
+        <div class="flex-justify">
+            <span>DESC. MONEDERO:</span>
+            <span th:text="${'-$' + #numbers.formatDecimal(walletRedeemed, 1, 2)}">-$0.00</span>
+        </div>
+        <div class="flex-justify bold">
+            <span>TOTAL A PAGAR:</span>
+            <span th:text="${'$' + #numbers.formatDecimal(sale.totalAmount.subtract(walletRedeemed), 1, 2)}">$0.00</span>
+        </div>
+    </div>
+
+    <div th:if="${walletRedeemed == 0}">
+        <div class="flex-justify bold">
+            <span>TOTAL A PAGAR:</span>
+            <span th:text="${'$' + #numbers.formatDecimal(sale.totalAmount, 1, 2)}">$0.00</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 5px;">
+        <div th:if="${sale.paymentMethod.name() == 'CASH'}">
+            <div class="flex-justify">
+                <span>EFECTIVO RECIBIDO:</span>
+                <span th:text="${sale.amountTendered != null ? '$' + #numbers.formatDecimal(sale.amountTendered, 1, 2) : '$0.00'}">$0.00</span>
+            </div>
+            <div class="flex-justify">
+                <span>SU CAMBIO:</span>
+                <span th:text="${sale.changeAmount != null ? '$' + #numbers.formatDecimal(sale.changeAmount, 1, 2) : '$0.00'}">$0.00</span>
+            </div>
+        </div>
+
+        <div th:if="${sale.paymentMethod.name() == 'CREDIT_CARD' || sale.paymentMethod.name() == 'DEBIT_CARD'}">
+            <div class="flex-justify">
+                <span>PAGADO CON:</span>
+                <span th:text="${(sale.cardBrand != null ? sale.cardBrand : 'TARJETA') + ' ' + (sale.lastFourDigits != null ? '****' + sale.lastFourDigits : '')}">TARJETA</span>
+            </div>
+            <div class="flex-justify">
+                <span>AUTORIZACION:</span>
+                <span th:text="${sale.authCode != null ? sale.authCode : 'APROBADO'}">APROBADO</span>
+            </div>
+            <div class="center bold" style="margin-top: 5px;">PAGO EN UNA SOLA EXHIBICION</div>
+        </div>
+
+        <div th:if="${sale.paymentMethod.name() == 'TRANSFER'}">
+            <div class="flex-justify">
+                <span>PAGADO CON:</span>
+                <span th:text="'TRANSFERENCIA ' + ${sale.cardBrand != null ? sale.cardBrand : 'SPEI'}">TRANSFERENCIA</span>
+            </div>
+            <div class="flex-justify">
+                <span>CLAVE RASTREO:</span>
+                <span th:text="${sale.authCode != null ? sale.authCode : 'N/A'}">N/A</span>
+            </div>
+            <div class="center bold" style="margin-top: 5px;">PAGO RECIBIDO VIA SPEI</div>
+        </div>
+
+        <div th:if="${sale.paymentMethod.name() == 'QR'}">
+            <div class="flex-justify">
+                <span>PAGADO CON:</span>
+                <span th:text="'CODIGO QR ' + ${sale.cardBrand != null ? sale.cardBrand : 'APP DIGITAL'}">QR</span>
+            </div>
+            <div class="flex-justify">
+                <span>OPERACION:</span>
+                <span th:text="${sale.authCode != null ? sale.authCode : 'N/A'}">N/A</span>
+            </div>
+            <div class="center bold" style="margin-top: 5px;">PAGO POR MEDIOS DIGITALES</div>
+        </div>
+    </div>
+
+    <div th:if="${earnedTx != null || walletRedeemed > 0}">
+        <div class="divider"></div>
+        <div class="center bold">--- MONEDERO DIGITAL DAVHO'S ---</div>
+        <div class="flex-justify" th:if="${walletRedeemed > 0}">
+            <span>Saldo Utilizado:</span>
+            <span th:text="${'-$' + #numbers.formatDecimal(walletRedeemed, 1, 2)}">-$0.00</span>
+        </div>
+        <div th:if="${earnedTx != null}">
+            <div class="flex-justify">
+                <span>Puntos Ganados:</span>
+                <span th:text="${'+$' + #numbers.formatDecimal(earnedTx.amount, 1, 2)}">+$0.00</span>
+            </div>
+            <div class="flex-justify">
+                <span>Saldo Disponible:</span>
+                <span th:text="${'$' + #numbers.formatDecimal(earnedTx.wallet.balance, 1, 2)}">$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="asterisk-bar">**************************</div>
+    <div class="center">Recuerda que puedes realizar</div>
+    <div class="center">recargas de tiempo aire en todas</div>
+    <div class="center">nuestras sucursales sin comision</div>
+    <div class="asterisk-bar">**************************</div>
+
+    <div class="divider"></div>
+    <div class="center bold">¡Gracias por su compra!</div>
+    <div class="center">Este ticket no es un</div>
+    <div class="center">comprobante fiscal.</div>
+    <div class="divider"></div>
+
+</div>
+
+</body>
+</html>

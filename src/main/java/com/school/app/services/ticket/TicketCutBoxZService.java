@@ -1,9 +1,14 @@
 package com.school.app.services.ticket;
 
+import com.school.app.audit.Auditable;
 import com.school.app.entity.CashShift;
+import com.school.app.entity.SystemAuditLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +21,34 @@ public class TicketCutBoxZService {
 
     // Ancho estándar para impresoras térmicas de 58mm
     private static final int TICKET_WIDTH = 41;
+    private final SpringTemplateEngine templateEngine;
+
+    /**
+     * Genera el Reporte Z (Corte de Caja) en formato HTML para impresión térmica.
+     * * @param shiftId El ID del turno a procesar.
+     * @return El contenido HTML formateado como String.
+     */
+    @Auditable(action = SystemAuditLog.AuditAction.IMPRIMIR_TICKET_CORTE_Z, entityName = "SALE_TICKET")
+    @Transactional
+    public String generateZReportHtml(CashShift shift) {
+        log.info("Iniciando generación de Corte Z (Reporte Z) en HTML para el turno con ID: {}", shift.getId());
+        try {
+            // 2. Preparar el contexto con las variables que Thymeleaf necesita
+            Context context = new Context();
+            context.setVariable("shift", shift);
+            context.setVariable("shiftIdShort", shift.getId().toString().substring(0, 8).toUpperCase());
+            // Nota: Thymeleaf se encargará de realizar las validaciones de nulos
+            // y los formatos de moneda internamente en la plantilla.
+            // 3. Procesar la plantilla HTML (Debe coincidir con el nombre del archivo en src/main/resources/templates/)
+            String htmlContent = templateEngine.process("reporte-z", context);
+            log.info("Reporte Z en HTML generado exitosamente para el turno: {}", shift.getId());
+            // Retornamos el HTML final
+            return htmlContent;
+        } catch (Exception e) {
+            log.error("Ocurrió un error inesperado al generar el Reporte Z para el turno {}: {}", shift.getId(), e.getMessage());
+            throw e;
+        }
+    }
 
     /**
      * Genera el formato de texto plano para el ticket de Corte Z,
