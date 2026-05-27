@@ -1,7 +1,6 @@
 package com.school.app.controllers.ticket;
 
 import com.school.app.dto.response.ApiErrorResponse;
-import com.school.app.dto.response.TicketResponse;
 import com.school.app.entity.User;
 import com.school.app.repository.UserRepository;
 import com.school.app.services.ticket.TicketService;
@@ -21,8 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 /**
- * Controlador REST encargado de la generación y emisión de tickets de venta.
- *
+ * Controlador REST {@Link TicketController} encargado de la generación y emisión de tickets de venta.
  * Permite obtener el formato crudo (plain text) de una venta para ser
  * enviado directamente a una impresora térmica por el cliente (frontend).
  *
